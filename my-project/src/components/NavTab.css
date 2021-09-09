@@ -1,0 +1,17 @@
+header.MuiPaper-root.MuiAppBar-root.MuiAppBar-positionStatic.MuiAppBar-colorPrimary.Nav.MuiPaper-elevation4 {
+  color: black;
+  background-color: #fff;
+}
+.Nav {
+  /* background-color:  red; */
+}
+.Nav .Tabs{
+  max-width: 1000px;
+  /* background-color:  rgb(23, 136, 19); */
+  margin: auto;
+}
+.Nav .Tabs .LinkTab {
+  /* background-color: rgb(105, 13, 75); */
+  margin: 0 20px;
+}
+

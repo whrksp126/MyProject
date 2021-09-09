@@ -1,0 +1,24 @@
+div.MuiBox-root.MuiBox-root-11 {
+  padding: 0;
+}
+.Slide{
+  padding: 0;
+  margin: 0;
+}
+
+.each-slide > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  max-width: 950px;
+  height: 700px;
+  margin: 0 auto;
+}
+
+/* .each-slide span {
+  padding: 20px;
+  font-size: 20px;
+  background: #efefef;
+  text-align: center;
+} */

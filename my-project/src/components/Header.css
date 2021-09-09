@@ -1,0 +1,54 @@
+
+
+.Header {
+  /* background-color: rgb(255, 80, 80); */
+  display: flex;
+  height: 70px;
+  padding: 5px 0;
+}
+.Header .Inner{
+  /* background-color: rgb(156, 147, 61); */
+  display: inline-flex;
+  max-width: 1000px;
+  width: 80%;
+  margin: auto;
+  justify-content: space-between;
+  align-items: center;
+}
+.Header .Inner .Left{
+  /* background-color:rgb(58, 187, 32); */
+  display: flex;
+
+}
+.Header .Inner .Left .Menu{
+  /* background-color:rgb(32, 182, 187) */
+
+}
+.Header .Inner .Left .Name{
+  /* background-color:rgb(32, 42, 187) */
+  display: inline-block;
+  margin: auto 10px;
+}.Header .Inner .Left .Name a{
+  /* background-color:rgb(32, 42, 187) */
+  font-size: 30px;
+  font-family: 'HSYuji-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/HSYuji-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+.Header .Inner .Right{
+  /* background-color:rgb(32, 187, 153); */
+  display: flex;
+}
+.Header .Inner .Right .Search{
+  /* background-color:rgb(187, 55, 32) */
+
+}
+.Header .Inner .Right .Basket{
+  /* background-color:rgb(187, 32, 153) */
+
+}
+.Header .Inner .Right .MyPage{
+  /* background-color:rgb(187, 159, 32) */
+
+}
