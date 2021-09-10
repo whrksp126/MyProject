@@ -2,6 +2,7 @@ import React from 'react'
 import { createGlobalStyle } from 'styled-components'; 
 import reset from 'styled-reset';
 import Header from './components/Header'
+import MainPageContent from './components/MainPageContent'
 
 export default function Main() {
   const GlobalStyles = createGlobalStyle` 
@@ -14,7 +15,7 @@ export default function Main() {
       <GlobalStyles />
       
       <Header />
-      maincomponent입니다.
+      <MainPageContent />
     </>
   )
 }

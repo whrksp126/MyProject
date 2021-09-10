@@ -10,6 +10,7 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import RedeemIcon from '@material-ui/icons/Redeem';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import MenuIcon from '@material-ui/icons/Menu';
 
 const useStyles = makeStyles((theme) => ({
   input: {
@@ -28,7 +29,7 @@ export default function Header() {
 
   const defaultProps = {
     // bgcolor: 'background.paper',
-    borderColor: 'cdcdcd'
+    borderColor: 'text.disabled'
   }
   
 
@@ -38,7 +39,7 @@ export default function Header() {
     <>
 
       {/* headerTop */}
-      <Box bgcolor="warning.main" color="warning.contrastText"  height="40px" width="100%" borderBottom={1} {...defaultProps} >
+      <Box color="warning.contrastText"  height="40px" width="100%" borderBottom={1} {...defaultProps} >
 
         {/* headerTopInner */}
         <Box display="flex" justifyContent="flex-end" margin="0 auto" height="85%" paddingTop={0.8} bgcolor="background.paper" width="1442px"  >
@@ -53,7 +54,7 @@ export default function Header() {
       </Box>
 
       {/* headerCenter */}
-      <Box width="100%" height="135px" bgcolor="red" color="warning.contrastText">
+      <Box width="100%" height="135px" color="warning.contrastText">
 
         {/* headerCenterInner */}
         <Box display="flex" justifyContent="center" margin="auto" height="100%" bgcolor='background.paper' width="1442px">
@@ -107,8 +108,36 @@ export default function Header() {
 
 
       {/* headerBottom */}
-      <Box bgcolor="warning.main" height="65px" borderBottom={1} {...defaultProps}>
-        headerBottom
+      <Box height="65px">
+
+        {/* headerBottomInner */}
+        <Box display="flex" margin="auto" height="100%" bgcolor="background.paper" width="1442px"  >
+
+          {/* headerBottomInnerItem */}
+          <Box display="flex" justifyContent="center" alignItems="center" margin="auto" >
+
+            {/* menu icon */}
+            <Box ><MenuIcon style={{ fontSize: 40 }}/></Box>
+
+            {/* ItemList */}
+            <Box p={0.7} marginLeft="20px" color="info.main">베스트</Box>
+            <Box p={0.7} marginLeft="1px" color="secondary.main">신상</Box>
+            <Box p={0.7} marginLeft="1px">아우터</Box>
+            <Box p={0.7} marginLeft="1px">상의</Box>
+            <Box p={0.7} marginLeft="1px">셔츠/블라우스</Box>
+            <Box p={0.7} marginLeft="1px">트레이닝</Box>
+            <Box p={0.7} marginLeft="1px"> 베이직</Box>
+            <Box p={0.7} marginLeft="1px">원피스</Box>
+            <Box p={0.7} marginLeft="1px">스커트</Box>
+            <Box p={0.7} marginLeft="1px">팬츠</Box>
+            <Box p={0.7} marginLeft="1px">가방</Box>
+            <Box p={0.7} marginLeft="1px">신발</Box>
+            <Box p={0.7} marginLeft="1px">악세서리</Box>
+
+            {/* 오늘출발 */}
+            <Box p={2} border={1} borderRadius={25} color="white" bgcolor="orange" marginLeft="100px">오늘출발</Box>
+          </Box>
+        </Box>
       </Box>
 
     </>
