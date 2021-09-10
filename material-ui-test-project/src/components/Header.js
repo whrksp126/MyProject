@@ -42,15 +42,14 @@ export default function Header() {
 
         {/* headerTopInner */}
         <Box display="flex" justifyContent="flex-end" margin="0 auto" height="85%" paddingTop={0.8} bgcolor="background.paper" width="1442px"  >
+
           {/* headerTopInnerItem */}
           <Box display="flex" justifyContent="flex" alignItems="center" paddingRight="150px" fontSize={12}>
             <Box href="#" pr={4}>회원가입(+2만원)</Box>
             <Box href="#" pr={4}>고객센터</Box>
             <Box href="#" fontSize={11} border={1.2} pt={0.7} pb={0.7} pl={1.3} pr={1.3} borderRadius={6} >로그인</Box>
           </Box>
-
         </Box>
-
       </Box>
 
       {/* headerCenter */}
@@ -75,6 +74,7 @@ export default function Header() {
               </IconButton >
             </Box>
 
+            {/* headerCenterInnerIcon */}
             <Box pr={3} display="flex">
               <Box pr={3} width='40px' flexWrap="wrap" >
                 <Box ><CheckCircleOutlineIcon style={{ fontSize: 40 }}/></Box>
@@ -94,12 +94,11 @@ export default function Header() {
               </Box>
             </Box>
             
+            {/* headerCenterInnerSearchRanking */}
             <Box display='flex' alignItems="center" borderBottom={1} width={180} >
               <Box pr={2.5} fontSize={13}>1. 실시간 인기 검색어</Box> 
               <ArrowDropDownIcon style={{ fontSize: 30 }}/>
             </Box>
-
-
           </Box>
         </Box>
       </Box>

@@ -10,8 +10,10 @@ export default function Main() {
 
   return (
     <>
-    <GlobalStyles />
-    <Header />
+      {/* Reset.css설정 */}
+      <GlobalStyles />
+      
+      <Header />
       maincomponent입니다.
     </>
   )
