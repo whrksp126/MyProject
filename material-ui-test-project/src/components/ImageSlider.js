@@ -33,7 +33,7 @@ function ImageSlider() {
     width: 686px;
     height: 686px;
     border-radius: 24px;
-    padding: 0 14px;
+    padding: 0 15px;
     float: left;
     overflow: hidden;
     position: relative;
