@@ -331,7 +331,7 @@ function ItemList() {
 
         {/* item */}
         <Box pb={5}>
-        <Box style={{ position: "relative" }}>
+          <Box style={{ position: "relative" }}>
             <Box 
               width="253px" 
               height="253px" 
@@ -364,6 +364,40 @@ function ItemList() {
           </Box>
         </Box>
 
+        {/* item */}
+        <Box pb={5}>
+          <Box style={{ position: "relative" }}>
+            <Box 
+              width="253px" 
+              height="253px" 
+              borderRadius={25}
+              style={{ 
+                backgroundImage: `url("http://ccimg.hellomarket.com/images/2018/item/11/04/00/3543_2037744_1.jpg?size=s6")`,
+                backgroundSize: '100% 100%',
+                backgroundRepeat: 'no-repeat',
+              }}
+            >
+            <FavoriteBorderIcon style={{ position: "absolute",   top:"20px",  left:"20px",  fontSize: 40,  color:"#FF7D9E" }} />              
+            </Box>  
+            <Box 
+              width="253px" 
+              marginTop="20px"
+              fontSize={17}
+            >슬림 골지 폴라니트2종(T)
+            </Box>  
+            <Box  marginTop="10px" fontSize={23} mb={1}>
+              <Box color="#ff485a" display="inline">38%</Box>
+              <Box display="inline">10,000</Box>
+            </Box>  
+            <Box 
+              width="253px" 
+              textOverflow="ellipsis"
+              overflow="hidden"
+              whiteSpace="nowrap"
+              color="#ff485a"
+            >주말특가♥ 딱 3일만 인기상품 세일! 13일 17:00 까지!</Box>  
+          </Box>
+        </Box>
 
       </Box>
     </>
