@@ -1,8 +1,9 @@
 import React from 'react'
 import { createGlobalStyle } from 'styled-components'; 
 import reset from 'styled-reset';
-import Header from './components/Header'
-import MainPageContent from './components/MainPageContent'
+import firebase from './firebase'
+import AppRouter from './components/AppRouter'
+
 
 export default function Main() {
   const GlobalStyles = createGlobalStyle` 
@@ -13,9 +14,8 @@ export default function Main() {
     <>
       {/* Reset.css설정 */}
       <GlobalStyles />
-      
-      <Header />
-      <MainPageContent />
+      <AppRouter />
+
     </>
   )
 }
