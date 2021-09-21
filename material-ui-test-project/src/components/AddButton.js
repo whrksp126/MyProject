@@ -1,10 +1,11 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Button from '@mui/material/Button';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
+import fireDb from "../firebase"
 
 const style = {
   position: 'absolute',
@@ -19,10 +20,39 @@ const style = {
   p: 4,
 };
 
+
+const initialState = {
+  name: "",
+  link: "",
+  price: "",
+  sale: "",
+  event: "",
+  tag: "",
+}
+
 function AddButton() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const [state, setState] = useState(initialState);
+  const [data, setData] = useState();
+
+  const { name, link, price, sale, event, tag } = state
+
+  const handleInputChange = (e) => {
+    const {name, value} = e.target;
+    setState({...state, [name]: value})
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if( !name || !link || !price || !sale || !event || !tag ) {
+      alert('내용을 다 입력해주세요')
+    } else {
+
+    }
+  }
 
   return (
     <>
@@ -50,15 +80,17 @@ function AddButton() {
             noValidate
             autoComplete="off"
           >
-            <TextField id="outlined-basic" label="상품 이름" variant="outlined" />
-            <TextField id="outlined-basic" label="상품 이미지 링크" variant="outlined" />
-            <TextField id="outlined-basic" label="상품 가격" variant="outlined" />
-            <TextField id="outlined-basic" label="상품 할인률" variant="outlined" />
-            <TextField id="outlined-basic" label="상품 이벤트 내역" variant="outlined" />
-            <TextField id="outlined-basic" label="상품 태그" variant="outlined" />
+            <TextField id="name" type="text" name="name" value={state.name} onChange={handleInputChange} label="상품 이름" variant="outlined" />
+            <TextField id="link" type="url" name="link" value={state.link} onChange={handleInputChange} label="상품 이미지 링크" variant="outlined" />
+            <TextField id="price" type="number" name="price" value={state.price} onChange={handleInputChange} label="상품 가격" variant="outlined" />
+            <TextField id="sale" type="number" name="sale" value={state.sale} onChange={handleInputChange} label="상품 할인률" variant="outlined" />
+            <TextField id="event" type="text" name="event" value={state.event} onChange={handleInputChange} label="상품 이벤트 내역" variant="outlined" />
+            <TextField id="tag" type="text" name="tag" value={state.tag} onChange={handleInputChange} label="상품 태그" variant="outlined" />
+
           </Box>
+
           {/* 상품 등록 버튼 */}
-          <Button variant="contained" onClick={handleOpen}
+          <Button type="submit" value="Save" variant="contained" onClick={handleSubmit}
           sx={{ bgcolor: '#ff485a', color: 'white', p: 2, margin:1}}>
           상품 등록
         </Button>
