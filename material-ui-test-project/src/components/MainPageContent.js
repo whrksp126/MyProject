@@ -3,6 +3,7 @@ import Box from '@material-ui/core/Box';
 import ImageSlider from './ImageSlider';
 import ItemList from './ItemList';
 import AddButton from './AddButton'
+import DeleteButton from './DeleteButton'
 
 export default function MainPageContent() {
 
@@ -23,6 +24,9 @@ export default function MainPageContent() {
 
           {/* 아이템 추가 버튼 */}
           <AddButton/>
+
+          {/* 아이템 삭제 버튼 */}
+          <DeleteButton />
 
             {/* Button */}
             <Box display="flex" fontWeight={600} fontSize={20} justifyContent="flex-start" pl={1} paddingY={5} >
