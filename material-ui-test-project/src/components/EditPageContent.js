@@ -4,9 +4,9 @@ import ImageSlider from './ImageSlider';
 import ItemList from './ItemList';
 import AddButton from './AddButton'
 import DeleteButton from './DeleteButton'
-import ManagerButton from './ManagerButton'
+import Client from "./Client";
 
-export default function MainPageContent() {
+export default function EidtPageContent() {
 
   const [data, setData] = useState()
 
@@ -26,7 +26,13 @@ export default function MainPageContent() {
             <Box display="flex" width="1342px" fontWeight={900} fontSize={35} pl={1} >VTGS고객님을 위한 추천상품</Box>
 
           {/* 관리자 모드 버튼 */}
-          <ManagerButton />
+          <Client />
+          
+          {/* 아이템 추가 버튼 */}
+          <AddButton/>
+
+          {/* 아이템 삭제 버튼 */}
+          <DeleteButton />
 
             {/* Button */}
             <Box display="flex" fontWeight={600} fontSize={20} justifyContent="flex-start" pl={1} paddingY={5} >

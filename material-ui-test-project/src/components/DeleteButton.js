@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import Button from '@mui/material/Button';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
@@ -16,22 +16,32 @@ const style = {
   p: 4,
 };
 
-function DeleteButton() {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+function DeleteButton(props) {
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const trueFalse = false
 
+  const handleOpen = () => {
+    props.setData(!trueFalse)
   }
 
   return (
     <>
       <div className="addButton" style={{width: '100%', position: 'relative',}}>
-        <Button variant="contained" endIcon={<DeleteForeverIcon />} onClick={handleOpen}
-          sx={{ bgcolor: '#ff485a', color: 'white', p: 2, position: 'absolute', top: 0, right: '15%', zIndex: '1',}}>
-          상품 삭제
+        <Button 
+          variant="contained" 
+          onClick={handleOpen}
+          endIcon={<DeleteForeverIcon />} 
+          sx={{ 
+            bgcolor: '#ff485a', 
+            color: 'white', 
+            p: 2, 
+            position: 'absolute', 
+            top: 0, 
+            right: '15%', 
+            zIndex: '1',
+          }}
+        >
+        상품 삭제
         </Button>
       </div>
     </>

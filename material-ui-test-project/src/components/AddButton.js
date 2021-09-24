@@ -69,7 +69,7 @@ function AddButton() {
     <>
       <div className="addButton" style={{width: '100%', position: 'relative',}}>
         <Button variant="contained" endIcon={<AddCircleIcon />} onClick={handleOpen}
-          sx={{ bgcolor: '#ff485a', color: 'white', p: 2, position: 'absolute', top: 0, right: '3%', zIndex: '1',}}>
+          sx={{ bgcolor: '#ff485a', color: 'white', p: 2, position: 'absolute', top: 0, right: '28%', zIndex: '1',}}>
           상품 추가
         </Button>
       </div>
