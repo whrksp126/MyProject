@@ -2,10 +2,10 @@ import React, {useState} from 'react'
 import Button from '@mui/material/Button';
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 
-const Client = () => {
+const ClientButton = () => {
 
   const handleOpen = () => {
-
+    
   }
 
   return (
@@ -20,4 +20,4 @@ const Client = () => {
   )
 }
 
-export default Client
+export default ClientButton

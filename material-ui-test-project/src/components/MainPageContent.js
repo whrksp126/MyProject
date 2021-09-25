@@ -23,7 +23,7 @@ export default function MainPageContent() {
           {/* Inner */}
           <Box margin="auto" height="85%" paddingTop={9} bgcolor="background.paper" width="1442px">
             {/* Title */}
-            <Box display="flex" width="1342px" fontWeight={900} fontSize={35} pl={1} >VTGS고객님을 위한 추천상품</Box>
+          <Box display="flex" width="1342px" fontWeight={900} fontSize={35} pl={1} >VTGS고객님을 위한 추천상품</Box>
 
           {/* 관리자 모드 버튼 */}
           <ManagerButton />

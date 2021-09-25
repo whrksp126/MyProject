@@ -4,7 +4,7 @@ import ImageSlider from './ImageSlider';
 import ItemList from './ItemList';
 import AddButton from './AddButton'
 import DeleteButton from './DeleteButton'
-import Client from "./Client";
+import ClientButton from "./ClientButton";
 
 export default function EidtPageContent() {
 
@@ -26,7 +26,7 @@ export default function EidtPageContent() {
             <Box display="flex" width="1342px" fontWeight={900} fontSize={35} pl={1} >VTGS고객님을 위한 추천상품</Box>
 
           {/* 관리자 모드 버튼 */}
-          <Client />
+          <ClientButton />
           
           {/* 아이템 추가 버튼 */}
           <AddButton/>
