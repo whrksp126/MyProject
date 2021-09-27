@@ -63,7 +63,7 @@ const Home = () => {
                   >
                     삭제
                   </button>
-                  <Link to={`/update/${id}`}>
+                  <Link to={`/View/${id}`}>
                     <button className="btn btn-view">상세</button>
                   </Link>
                 </td>

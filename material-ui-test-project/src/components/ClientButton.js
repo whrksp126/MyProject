@@ -5,6 +5,7 @@ import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 const ClientButton = () => {
 
   const handleOpen = () => {
+    // (상품 추가, 상품 삭제) 버튼을 안보이게 하고, 아이템의 상단에 하트 아이콘이 보이게 한다.
     
   }
 
