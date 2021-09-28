@@ -5,6 +5,7 @@ import About from './pages/About';
 import AddEdit from './pages/AddEdit';
 import Home from './pages/Home';
 import View from './pages/View';
+import Search from './pages/Search';
 
 import './App.css';
 import { ToastContainer } from 'react-toastify';
@@ -23,6 +24,7 @@ function App() {
           <Route path="/update/:id" component={AddEdit} />
           <Route path="/view/:id" component={View} />
           <Route path="/about" component={About} />
+          <Route path="/search" component={Search} />
         </Switch>
       </div>
     </BrowserRouter>
