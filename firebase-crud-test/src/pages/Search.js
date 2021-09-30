@@ -8,11 +8,16 @@ const Search = () => {
 
   // url에 저장된 name 뒤 값을 가져옴
   const useQuery = () => {
+    // 새로운 객체를 생성하고 반환합니다.
+    // useLocation은 URL이 바뀔때마다 새로운 location이 반환되는 useState 처럼 생각할 수 있다.
+    // useLocation()을 실행한 내용을 출력하면 pathname과 search 라는 객체를 출력합니다.
+    // pathname은 쿼리스트링을 제외한 /home이런것이 출력 되고
+    // search는 쿼리 스트링을 분석해야하는 상황에서 유용합니다.
     return new URLSearchParams(useLocation().search);
   }
   let query = useQuery();
+  // url의 쿼리 스트링 분석하여 name 대한 값을 가져옴
   let search = query.get("name");
-
 
   useEffect(() => {
     searchData();
@@ -21,6 +26,7 @@ const Search = () => {
   // database에서 검색한 결과랑 일치하는 것을 가져옴
   const searchData = () => {
     fireDb.child("contacts")
+    // 
     .orderByChild('name')
     .equalTo(search)
     .on('value', (snapshout) => {
@@ -47,6 +53,7 @@ const Search = () => {
               <th style={{textAlign: 'center'}}>이름</th>
               <th style={{textAlign: 'center'}}>이메일</th>
               <th style={{textAlign: 'center'}}>연락처</th>
+              <th style={{textAlign: 'center'}}>상태</th>
             </tr>
           </thead>
           <tbody>
@@ -57,6 +64,7 @@ const Search = () => {
                   <td>{data[id].name}</td>
                   <td>{data[id].email}</td>
                   <td>{data[id].contact}</td>
+                  <td>{data[id].status}</td>
                 </tr>
               )
             })}

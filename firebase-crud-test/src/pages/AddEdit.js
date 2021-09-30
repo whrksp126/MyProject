@@ -8,13 +8,14 @@ const initialState = {
   name: '',
   email: '',
   contact: '',
+  status: '',
 }
 
 const AddEdit = () => {
   const [ state, setState] = useState(initialState)
   const [ data, setData] = useState({});
 
-  const { name, email, contact } = state;
+  const { name, email, contact, status } = state;
 
   const history = useHistory();
 
@@ -56,7 +57,7 @@ const AddEdit = () => {
   // 데이터 베이스에 저장할 수 있게 해줌
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(!name || !email || !contact) {
+    if(!name || !email || !contact || !status) {
       toast.error('각 입력란에 값을 입력하세요')
     } else {
       // 새로 추가하는 로직
@@ -78,6 +79,7 @@ const AddEdit = () => {
     }
   }
 
+
   return (
     <div style={{marginTop:"100px"}}>
       <form 
@@ -89,33 +91,48 @@ const AddEdit = () => {
         }}
         onSubmit={handleSubmit}
       >
-        <label htmlFor="name">name</label>
+        <label htmlFor="name">이름</label>
         <input 
           type="text" 
           id="name" 
           name="name" 
-          placeholder="your name..." 
+          placeholder="홍길동" 
           value={name || ""} 
           onChange={handleInputChange}  
         />
-        <label htmlFor="email">email</label>
+        <label htmlFor="email">이메일</label>
         <input 
           type="email" 
           id="email" 
           name="email" 
-          placeholder="your email..." 
+          placeholder="abc@abc.com" 
           value={email || ""} 
           onChange={handleInputChange}  
         />
-        <label htmlFor="contact">contact</label>
+        <label htmlFor="contact">연락처</label>
         <input 
           type="number" 
           id="contact" 
           name="contact" 
-          placeholder="your contact..." 
+          placeholder="01012341234" 
           value={contact || ""} 
           onChange={handleInputChange}  
         />
+        <label htmlFor="status">상태</label>
+        {/* <input 
+          type="text" 
+          id="status" 
+          name="status" 
+          placeholder="활성화..." 
+          value={status || ""} 
+          onChange={handleInputChange}  
+        /> */}
+        <select name="status" id="status" onChange={handleInputChange}  >
+          <option value="활성화">활성화</option>
+          <option value="비활성화">비활성화</option>
+        </select>
+
+
         <input type="submit" value={id ? "Update" : "Save"} />
 
       </form>

@@ -23,6 +23,7 @@ const Header = () => {
   // 검색한 내용을 url에 저장함
   const handleSubmit = (e) => {
     e.preventDefault();
+
     history.push(`/search?name=${search}`)
     setSearch("");
   }
