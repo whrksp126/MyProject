@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useHistory, Link} from 'react-router-dom';
+import {registerInitiate} from '../redux/actions'
 import './Register.css'
+import store from '../firebase'
 
 const Register = () => {
 
@@ -12,10 +14,40 @@ const Register = () => {
     passwordConfirm: '',
   });
 
+  const { currentUser } = useSelector((state) => state.user);
+  
+  const history = useHistory();
+  
+  useEffect(()=> {
+    if(currentUser) {
+      alert( '회원가입을 축하힙니다.')
+      history.push('/')
+    }
+  }, [currentUser, history]);
+  
+  const dispatch = useDispatch();
+
   const {email, password, displayName, passwordConfirm} = state;
 
-  const handleSubmit = () => {}
-  const handleChange = () => {}
+  // 데이터 전송
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // 입력한 비밀번호와 비밀번호 재확인이 같지 않으면 그냥 리턴함
+    if(password !== passwordConfirm) {
+      alert("비밀번호가 일치하지 않습니다.");
+    }
+    // 액션을 이용하여 이메일 패스워드 이름을 전송함 reducer에 전송함
+    dispatch(registerInitiate(email, password, displayName));
+    // 입력창 초기화
+    setState({email: "", displayName: "", password: "", passwordConfirm: "",})
+  }
+
+  // 입력창에 입력 받은 값을 화면에 바로바로 업데이트 해줌
+  const handleChange = (e) => {
+    let {name, value} = e.target;
+    setState({ ...state, [name]: value });
+  };
+
   return (
     <div>
       <div id="register-form">

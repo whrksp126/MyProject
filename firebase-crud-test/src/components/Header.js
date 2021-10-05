@@ -83,6 +83,8 @@ const Header = () => {
           </p>  
         </Link> 
 
+        <button className="btn btn-danger">로그 아웃</button>
+
       </div>
     </div>
   )
