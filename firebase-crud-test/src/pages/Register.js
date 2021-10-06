@@ -3,7 +3,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useHistory, Link} from 'react-router-dom';
 import {registerInitiate} from '../redux/actions'
 import './Register.css'
-import store from '../firebase'
 
 const Register = () => {
 

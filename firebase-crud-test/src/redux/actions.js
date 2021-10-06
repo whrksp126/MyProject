@@ -24,8 +24,14 @@ export const registerInitiate = (email, password, displayName) => {
         user.updateProfile({
           displayName,
         });
+        // console 창에 보여줌
         dispatch(registerSuccess(user));
       })
-      .catch((error) => dispatch(registerFail(error.message)));
+      .catch((error) => {
+        // console 창에 보여줌
+        dispatch(registerFail(error.message))
+        // alert 으로 보여줌
+        alert(error.message)
+      });
   }
 }
