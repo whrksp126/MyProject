@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useHistory, Link} from 'react-router-dom';
+import { loginInitiate } from '../redux/actions';
 import './Login.css'
 
 const Login = () => {
@@ -11,10 +12,38 @@ const Login = () => {
   });
 
   const {email, password} = state;
+
+  // 로그인이 완료되면 실행할 로직
+  const { currentUser } = useSelector((state) => state.user);
+  const history = useHistory();
+  useEffect(()=> {
+    if(currentUser) {
+      alert( '로그인을 축하힙니다.')
+      history.push('/')
+    }
+  }, [currentUser, history]);
+  const dispatch = useDispatch();
+
+  //
   const handleGoogleSignIn = () => {}
+
   const handleFBSignIn = () => {}
-  const handleSubmit = () => {}
-  const handleChange = () => {}
+
+  // 전송하기 버튼
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if(!email || !password) {
+      return;
+    }
+    dispatch(loginInitiate(email, password));
+    setState({email: "", password: ""});
+  }
+
+  // 입력창에 입력 값 보이게 함
+  const handleChange = (e) => {
+    let {name, value} = e.target;
+    setState({ ...state, [name]: value });
+  };
   return (
     <div>
       <div id="logreg-forms">

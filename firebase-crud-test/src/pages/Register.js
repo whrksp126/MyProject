@@ -13,6 +13,7 @@ const Register = () => {
     passwordConfirm: '',
   });
 
+  // 회원가입이 완료되면 실행될 로직
   const { currentUser } = useSelector((state) => state.user);
   
   const history = useHistory();
