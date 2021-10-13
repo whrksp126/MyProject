@@ -1,8 +1,20 @@
 import React, {useEffect, useState} from 'react'
 import {Link, useLocation, useHistory} from 'react-router-dom'
 import './Header.css'
+import { useDispatch, useSelector} from 'react-redux';
+import { logoutInitiate } from '../redux/actions';
+
 
 const Header = () => {
+  const { currentUser } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  const handleAuth = () => {
+    if(currentUser) {
+      dispatch(logoutInitiate());
+    }
+  }
+
   const [activeTab, setActiveTab] = useState("Home");
   const location = useLocation();
   const [search, setSearch] = useState("");
@@ -83,7 +95,7 @@ const Header = () => {
           </p>  
         </Link> 
 
-        <button className="btn btn-danger">로그 아웃</button>
+        <button className="btn btn-danger" onClick={handleAuth}>로그 아웃</button>
 
       </div>
     </div>

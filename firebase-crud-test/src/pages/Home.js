@@ -1,8 +1,8 @@
-import React, {useState, useEffect} from 'react'
-import fireDb from '../firebase'
-import {Link} from 'react-router-dom'
-import './Home.css'
-import { toast } from 'react-toastify'
+import React, {useState, useEffect} from 'react';
+import fireDb from '../firebase';
+import {Link} from 'react-router-dom';
+import './Home.css';
+import { toast } from 'react-toastify';
 
 const Home = () => {
   const [data, setData] = useState({});

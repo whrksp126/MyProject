@@ -32,6 +32,19 @@ const loginFail = (error) => ({
   payload: error
 });
 
+// 로그아웃 액션
+const logoutStart = () => ({
+  type: types.LOGOUT_START,
+});
+
+const logoutSuccess = () => ({
+  type: types.LOGOUT_SUCCESS,
+});
+
+const logoutFail = (error) => ({
+  type: types.LOGOUT_FAIL,
+  payload: error
+});
 
 // 회원가입 파이어베이스 메소드
 export const registerInitiate = (email, password, displayName) => {
@@ -70,6 +83,25 @@ export const loginInitiate = (email, password) => {
         dispatch(loginFail(error.message))
         // alert 으로 보여줌
         alert("이 식별자에 해당하는 사용자 기록이 없습니다. 사용자가 삭제되었을 수 있습니다. (인증/사용자를 찾을 수 없음)")
+      });
+  }
+}
+
+// 로그아웃 파이어베이스 메소드
+export const logoutInitiate = () => {
+  return function (dispatch) {
+    dispatch(loginStart());
+    auth
+      .signOut()
+      .then(({resp}) => {
+        // console 창에 보여줌
+        dispatch(logoutSuccess())
+      })
+      .catch((error) => {
+        // console 창에 보여줌
+        dispatch(logoutFail(error.message))
+        // alert 으로 보여줌
+        alert(error.message)
       });
   }
 }
