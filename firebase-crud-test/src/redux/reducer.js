@@ -27,6 +27,12 @@ const userReducer = (state = initialState, action) => {
         loading: false,
         currentUser: action.payload,
       };
+    case types.SET_USER:
+      return {
+        ...state,
+        loading: false,
+        currentUser: action.payload,
+      }
     case types.REGISTER_FAIL:
     case types.LOGIN_FAIL:
     case types.LOGOUT_FAIL:

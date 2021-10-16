@@ -87,13 +87,18 @@ export const loginInitiate = (email, password) => {
   }
 }
 
+export const setUser = (user) => ({
+  type: types.SET_USER,
+  payload: user,
+})
+
 // 로그아웃 파이어베이스 메소드
 export const logoutInitiate = () => {
   return function (dispatch) {
     dispatch(loginStart());
     auth
       .signOut()
-      .then(({resp}) => {
+      .then((resp) => {
         // console 창에 보여줌
         dispatch(logoutSuccess())
       })
