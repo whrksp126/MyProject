@@ -84,9 +84,9 @@ const Home = () => {
         <thead>
           <tr>
             <th style={{textAlign: 'center'}}>No.</th>
-            <th style={{textAlign: 'center'}}>이름</th>
-            <th style={{textAlign: 'center'}}>이메일</th>
-            <th style={{textAlign: 'center'}}>연락처</th>
+            <th style={{textAlign: 'center'}}>종목</th>
+            <th style={{textAlign: 'center'}}>날짜</th>
+            <th style={{textAlign: 'center'}}>가격</th>
             <th style={{textAlign: 'center'}}>상태</th>
             {/* sort가 false 일때만 기능버튼을 활성화 하라 */}
             {!sort && <th style={{textAlign: 'center'}}>기능 버튼</th> }
@@ -102,7 +102,7 @@ const Home = () => {
                 <tr key={id}>
                   <th scope="row">{index + 1}</th>
                   <td>{data[id].name}</td>
-                  <td>{data[id].email}</td>
+                  <td>{data[id].date}</td>
                   <td>{data[id].contact}</td>
                   <td>{data[id].status}</td>
                   
@@ -134,7 +134,7 @@ const Home = () => {
                 <tr key={index}>
                   <th scope="row">{index + 1}</th>
                   <td>{item.name}</td>
-                  <td>{item.email}</td>
+                  <td>{item.date}</td>
                   <td>{item.contact}</td>
                   <td>{item.status}</td>
                 </tr>
@@ -149,10 +149,10 @@ const Home = () => {
       <label>정렬 기준 :</label>
       <select className="dropdown" name="colValue" onChange={handleChange}>
         <option>선택 해주세요</option>
-        <option value="name">이름</option>
-        <option value="email">이메일</option>
-        <option value="contact">연락처</option>
-        <option value="status">상태</option>
+        <option value="name">종목</option>
+        <option value="date">날짜</option>
+        <option value="contact">가격</option>
+        <option value="status">등급</option>
       </select>
       <button className="btn btn-reset" onClick={handleReset}>
         초기화  
@@ -160,9 +160,9 @@ const Home = () => {
       <br />
 
       {/* 버튼을 눌러 활성화, 비활성화에 따라 화면을 변경해줌 */}
-      <label>상태 : </label>
-      <button className="btn btn-active" onClick={()=>filterData("활성화")}>활성화</button>
-      <button className="btn btn-inactive" onClick={()=>filterData("비활성화")}>비활성화</button>
+      <label>등급 : </label>
+      <button className="btn btn-active" onClick={()=>filterData("관심")}>관심</button>
+      <button className="btn btn-inactive" onClick={()=>filterData("예비")}>예비</button>
       <br />
     </div>
   )

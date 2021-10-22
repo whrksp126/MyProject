@@ -6,7 +6,7 @@ import {toast} from 'react-toastify'
 
 const initialState = {
   name: '',
-  email: '',
+  date: '',
   contact: '',
   status: '',
 }
@@ -15,7 +15,7 @@ const AddEdit = () => {
   const [ state, setState] = useState(initialState)
   const [ data, setData] = useState({});
 
-  const { name, email, contact, status } = state;
+  const { name, date, contact, status } = state;
 
   const history = useHistory();
 
@@ -57,7 +57,7 @@ const AddEdit = () => {
   // 데이터 베이스에 저장할 수 있게 해줌
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(!name || !email || !contact || !status) {
+    if(!name || !date || !contact || !status) {
       toast.error('각 입력란에 값을 입력하세요')
     } else {
       // 새로 추가하는 로직
@@ -91,34 +91,34 @@ const AddEdit = () => {
         }}
         onSubmit={handleSubmit}
       >
-        <label htmlFor="name">이름</label>
+        <label htmlFor="name">종목</label>
         <input 
           type="text" 
           id="name" 
           name="name" 
-          placeholder="홍길동" 
+          placeholder="삼성전자" 
           value={name || ""} 
           onChange={handleInputChange}  
         />
-        <label htmlFor="email">이메일</label>
+        <label htmlFor="email">날짜</label>
         <input 
-          type="email" 
-          id="email" 
-          name="email" 
-          placeholder="abc@abc.com" 
-          value={email || ""} 
+          type="date" 
+          id="date" 
+          name="date" 
+          placeholder="2020-02-02"
+          value={date || ""} 
           onChange={handleInputChange}  
         />
-        <label htmlFor="contact">연락처</label>
+        <label htmlFor="contact">가격</label>
         <input 
           type="number" 
           id="contact" 
           name="contact" 
-          placeholder="01012341234" 
+          placeholder="123.123" 
           value={contact || ""} 
           onChange={handleInputChange}  
         />
-        <label htmlFor="status">상태</label>
+        <label htmlFor="status">등급</label>
         {/* <input 
           type="text" 
           id="status" 
@@ -128,8 +128,8 @@ const AddEdit = () => {
           onChange={handleInputChange}  
         /> */}
         <select name="status" id="status" onChange={handleInputChange}  >
-          <option value="활성화">활성화</option>
-          <option value="비활성화">비활성화</option>
+          <option value="활성화">관심</option>
+          <option value="비활성화">예비</option>
         </select>
 
 

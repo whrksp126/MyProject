@@ -49,9 +49,10 @@ const Header = () => {
             setActiveTab("Home")
           }
         >
-          Contact App
+          stock notepad
         </p>
       </Link>
+
       <div className="header-right">
 
         {/* 검색 input */}
@@ -73,7 +74,7 @@ const Header = () => {
             className={`${ activeTab === "Home"  ? "active" : ""}`}
             onClick={() => setActiveTab("Home")}
           >
-            Home  
+            메모장  
           </p>  
         </Link> 
 
@@ -82,7 +83,7 @@ const Header = () => {
             className={`${ activeTab === "AddContact"  ? "active" : ""}`}
             onClick={() => setActiveTab("AddContact")}
           >
-            Add Contact  
+            신규 작성  
           </p>  
         </Link> 
 
