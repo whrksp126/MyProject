@@ -102,7 +102,7 @@ const Home = () => {
                 <tr key={id}>
                   <th scope="row">{index + 1}</th>
                   <td>{data[id].name}</td>
-                  <td>{data[id].date}</td>
+                  <td>{data[id].email}</td>
                   <td>{data[id].contact}</td>
                   <td>{data[id].status}</td>
                   
@@ -134,7 +134,7 @@ const Home = () => {
                 <tr key={index}>
                   <th scope="row">{index + 1}</th>
                   <td>{item.name}</td>
-                  <td>{item.date}</td>
+                  <td>{item.email}</td>
                   <td>{item.contact}</td>
                   <td>{item.status}</td>
                 </tr>
@@ -150,7 +150,7 @@ const Home = () => {
       <select className="dropdown" name="colValue" onChange={handleChange}>
         <option>선택 해주세요</option>
         <option value="name">종목</option>
-        <option value="date">날짜</option>
+        <option value="email">이메일</option>
         <option value="contact">가격</option>
         <option value="status">등급</option>
       </select>
@@ -161,8 +161,8 @@ const Home = () => {
 
       {/* 버튼을 눌러 활성화, 비활성화에 따라 화면을 변경해줌 */}
       <label>등급 : </label>
-      <button className="btn btn-active" onClick={()=>filterData("관심")}>관심</button>
-      <button className="btn btn-inactive" onClick={()=>filterData("예비")}>예비</button>
+      <button className="btn btn-active" onClick={()=>filterData("활성화")}>활성화</button>
+      <button className="btn btn-inactive" onClick={()=>filterData("비활성화")}>비활성화</button>
       <br />
     </div>
   )
