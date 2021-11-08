@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import fireDb from '../firebase';
 import {Link} from 'react-router-dom';
 import './Home.css'
@@ -35,7 +35,7 @@ const Home = () => {
 
   return (
     <div style={{marginTop: '100px'}}>
-      <h2>목록 페이지</h2>
+      <h2>관심 종목</h2>
       <table className="styled-table">
         <thead>
           <tr>
@@ -52,16 +52,47 @@ const Home = () => {
         </thead>
         <tbody>
           {Object.keys(data).map((id, index)=>{
+          
             return (
               <tr key={id}>
                 <th scope="row">{index + 1}</th>
                 <td>{data[id].itemName}</td>
+                {/* 종목 명 */}
+
                 <td>{data[id].buyDay}</td>
+                {/* 매수 날짜 */}
+
                 <td>{data[id].buyPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
-                <td>{}</td>
-                <td>{}</td>
-                <td>{}</td>
-                <td>{}</td>
+                {/* 매수 금액 */}
+
+                <td>{data[id].sellDay}</td>
+                {/* 매도 날짜 */}
+
+                <td>{data[id].sellPrice}</td>
+                {/* 매도 금액 */}
+
+                <td>
+                  {!(data[id].sellPrice) ? '' : 
+                  // 매도 가격이 없으면 공백
+                (data[id].sellPrice - data[id].buyPrice ) > 0 ? ` ▲ ${(data[id].sellPrice - data[id].buyPrice).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} `
+                  // 대비가 + 이면
+                : `▽ ${(data[id].sellPrice - data[id].buyPrice).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
+                  // 대비가 - 이면
+                }
+                </td>
+                {/* 대비 */}
+
+                <td>
+                  {!(data[id].sellPrice) ? '' :
+                  // 매도 가격이 없으면 공백
+                    (data[id].sellPrice - data[id].buyPrice ) > 0 ? `↑${(((data[id].sellPrice - data[id].buyPrice) / data[id].buyPrice) * 100).toFixed(2)} % ` 
+                  // 매도가 + 이면
+                    :`↓${(((data[id].sellPrice - data[id].buyPrice) / data[id].buyPrice) * 100).toFixed(2)} % `
+                  // 매도가 - 이면
+                  }
+                </td>
+                {/* 등락률 */}
+                
                 <td>
                   <Link to={`/update/${id}`}>
                     <button className="btn btn-edit">수정</button>
