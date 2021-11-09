@@ -47,12 +47,13 @@ const Home = () => {
             <th style={{ textAlign: 'center' }}>매도 가격</th>
             <th style={{ textAlign: 'center' }}>대비</th>
             <th style={{ textAlign: 'center' }}>등락률</th>
+            <th style={{ textAlign: 'center' }}>투자 기간</th>
             <th style={{ textAlign: 'center' }}>기능</th>
           </tr>
         </thead>
         <tbody>
           {Object.keys(data).map((id, index)=>{
-          
+
             return (
               <tr key={id}>
                 <th scope="row">{index + 1}</th>
@@ -92,6 +93,16 @@ const Home = () => {
                   }
                 </td>
                 {/* 등락률 */}
+
+                <td>
+                  {
+                    !(data[id].sellDay) ? 
+                      '' 
+                        :
+                      `${Math.floor(new Date(data[id].sellDay).getTime() - new Date(data[id].buyDay).getTime())/(1000 * 60 * 60 * 24)} 일`
+                  } 
+                </td>
+                {/* 투자 기간 */}
                 
                 <td>
                   <Link to={`/update/${id}`}>
