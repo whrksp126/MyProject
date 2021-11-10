@@ -69,7 +69,7 @@ const Home = () => {
                 <td>{data[id].sellDay}</td>
                 {/* 매도 날짜 */}
 
-                <td>{data[id].sellPrice}</td>
+                <td>{data[id].sellPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
                 {/* 매도 금액 */}
 
                 <td>
