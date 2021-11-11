@@ -13,6 +13,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Header from "./components/Header";
 
+//teststock
+import Teststock from './pages/Teststock'
+
 function App() {
   return (
     <BrowserRouter>
@@ -25,6 +28,10 @@ function App() {
           <Route path="/update/:id" element={<AddEdit/>} />
           <Route path="/view/:id" element={<View/>} />
           <Route path="/about" element={<About/>} />
+
+          {/* testStock */}
+          <Route path="/stock" element={<Teststock/>} />
+
         </Routes>
       </div>
     </BrowserRouter>

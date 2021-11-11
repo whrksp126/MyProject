@@ -22,12 +22,12 @@
   border-bottom: 1px solid #dddddd;
 }
 
-.styled-table tbody tr:nth-of-type(even){
+.styled-table tbody tr:nth-of-type(odd){
   /* background-color: #f4ebf7; */
   background-color: #f3f3f3;
 }
 
-.styled-table tbody tr:nth-of-type(odd){
+.styled-table tbody tr:nth-of-type(even){
   background-color: #eee0f3;
 }
 .styled-table tbody tr:last-of-type {
@@ -52,10 +52,10 @@
 }
 
 .btn-delete {
-  background-color: #f44336;
+  background-color: #f17d74;
 }
 
 .btn-view {
-  background-color: #e7e7e7;
+  background-color: #58dee7;
   color: black;
 }
