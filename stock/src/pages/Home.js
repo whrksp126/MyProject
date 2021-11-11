@@ -56,8 +56,17 @@ const Home = () => {
 
             return (
               <tr key={id}>
-                <th scope="row">{index + 1}</th>
-                <td>{data[id].itemName}</td>
+                <th scope="row" >{index + 1}</th>
+                <td>
+                  <Link 
+                    style={{ 
+                      textDecoration: 'none', 
+                      color: 'black', 
+                    }} 
+                    to={`/view/${id}`}>{data[id].itemName}
+                  </Link>
+                </td>
+                
                 {/* 종목 명 */}
 
                 <td>{data[id].buyDay}</td>
@@ -66,10 +75,10 @@ const Home = () => {
                 <td>{data[id].buyPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
                 {/* 매수 금액 */}
 
-                <td>{data[id].sellDay}</td>
+                <td>{data[id].sellDay ? data[id].sellDay : ''}</td>
                 {/* 매도 날짜 */}
 
-                <td>{data[id].sellPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
+                <td>{data[id].sellPrice ? data[id].sellPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') :' '}</td>
                 {/* 매도 금액 */}
 
                 <td>
