@@ -75,14 +75,14 @@ const Home = () => {
                 <td>{data[id].buyPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
                 {/* 매수 금액 */}
 
-                <td>{data[id].sellDay ? data[id].sellDay : ''}</td>
+                <td>{data[id].sellDay ? data[id].sellDay : (null)}</td>
                 {/* 매도 날짜 */}
 
                 <td>{data[id].sellPrice ? data[id].sellPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') :' '}</td>
                 {/* 매도 금액 */}
 
                 <td>
-                  {!(data[id].sellPrice) ? '' : 
+                  {!(data[id].sellPrice) ? (null) : 
                   // 매도 가격이 없으면 공백
                 (data[id].sellPrice - data[id].buyPrice ) > 0 ? ` ▲ ${(data[id].sellPrice - data[id].buyPrice).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} `
                   // 대비가 + 이면
@@ -93,7 +93,7 @@ const Home = () => {
                 {/* 대비 */}
 
                 <td>
-                  {!(data[id].sellPrice) ? '' :
+                  {!(data[id].sellPrice) ? (null) :
                   // 매도 가격이 없으면 공백
                     (data[id].sellPrice - data[id].buyPrice ) > 0 ? `↑${(((data[id].sellPrice - data[id].buyPrice) / data[id].buyPrice) * 100).toFixed(2)} % ` 
                   // 매도가 + 이면
@@ -106,9 +106,20 @@ const Home = () => {
                 <td>
                   {
                     !(data[id].sellDay) ? 
-                      '' 
+                      (null)
                         :
-                      `${Math.floor(new Date(data[id].sellDay).getTime() - new Date(data[id].buyDay).getTime())/(1000 * 60 * 60 * 24)} 일`
+                        Math.floor(new Date(data[id].sellDay).getTime() - new Date(data[id].buyDay).getTime())/(1000 * 60 * 60 * 24) < 365 
+                         ? 
+                        `${Math.floor(new Date(data[id].sellDay).getTime() - new Date(data[id].buyDay).getTime())/(1000 * 60 * 60 * 24 * 60)} 일`
+                        : 
+                        `${
+                          Math.floor(new Date(data[id].sellDay).getFullYear() - new Date(data[id].buyDay).getFullYear())}년
+                         ${
+                          Math.floor(new Date(data[id].sellDay).getMonth() - new Date(data[id].buyDay).getMonth())}월
+                         ${Math.floor(new Date(data[id].sellDay).getDate() - new Date(data[id].buyDay).getDate())}일
+                        `
+                        // `${((Math.floor(new Date(data[id].sellDay).getTime() - new Date(data[id].buyDay).getTime())/(1000 * 60 * 60 * 24))/365).toFixed()}년`
+
                   } 
                 </td>
                 {/* 투자 기간 */}

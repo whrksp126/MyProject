@@ -181,21 +181,21 @@ const AddEdit = () => {
     <div style={{marginTop: '100px'}}>
       <h2>종목 추가 페이지</h2>
       <form onSubmit={handleSubmit} style={{margin: 'auto', padding: '15px', maxWidth: '400px', alignItems: 'center'}} >
-        <label htmlFor='itemName'>종목 명 *</label>
+        <label htmlFor='itemName'>종목 명  {id && `(☆)`}</label>
         <input value={itemName || ""} onChange={handleInputChange} type='text' id='itemName' name='itemName' placeholder='삼성전자' />
 
-        <label htmlFor='buyDay'>매수 일 *</label>
+        <label htmlFor='buyDay'>매수 일 {id && `(☆)`}</label>
         <input value={buyDay ||""}onChange={handleInputChange} type='date' id='buyDay' name='buyDay'/>
 
-        <label htmlFor='buyPrice' >매수 금액 *</label>
+        <label htmlFor='buyPrice' >매수 금액 {id && `(☆)`}</label>
         <input value={buyPrice || ""} onChange={handleInputChange} type='number' id='buyPrice' name='buyPrice' placeholder='10000' />
 
+        {id && <label htmlFor='sellDay'>매도 일</label>}
+        
+        {id && <input value={sellDay ||""}onChange={handleInputChange} type='date' id='sellDay' name='sellDay'/> }
 
-        <label htmlFor='sellDay'>매도 일</label>
-        <input value={sellDay ||""}onChange={handleInputChange} type='date' id='sellDay' name='sellDay'/>
-
-        <label htmlFor='buyPrice' >매도 금액</label>
-        <input value={sellPrice || ""} onChange={handleInputChange} type='number' id='sellPrice' name='sellPrice' placeholder='20000' />
+        {id && <label htmlFor='buyPrice' >매도 금액</label> }
+        {id && <input value={sellPrice || ""} onChange={handleInputChange} type='number' id='sellPrice' name='sellPrice' placeholder='20000' /> }
 
         <input type="submit" value={id ? "수정" : "저장" } />
       </form>
