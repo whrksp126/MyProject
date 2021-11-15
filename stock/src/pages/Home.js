@@ -110,13 +110,25 @@ const Home = () => {
                         :
                         Math.floor(new Date(data[id].sellDay).getTime() - new Date(data[id].buyDay).getTime())/(1000 * 60 * 60 * 24) < 365 
                          ? 
-                        `${Math.floor(new Date(data[id].sellDay).getTime() - new Date(data[id].buyDay).getTime())/(1000 * 60 * 60 * 24 * 60)} 일`
+                        //  ('365일 이하인 경우')
+                        `${Math.floor(new Date(data[id].sellDay).getTime() - new Date(data[id].buyDay).getTime())/(1000 * 60 * 60 * 24) } 일`
                         : 
                         `${
                           Math.floor(new Date(data[id].sellDay).getFullYear() - new Date(data[id].buyDay).getFullYear())}년
+                          
                          ${
+                          new Date(data[id].sellDay).getMonth() < new Date(data[id].buyDay).getMonth() 
+                          ?
+                          Math.floor(new Date(data[id].sellDay).getMonth() - new Date(data[id].buyDay).getMonth() ) + 12 
+                          :
                           Math.floor(new Date(data[id].sellDay).getMonth() - new Date(data[id].buyDay).getMonth())}월
-                         ${Math.floor(new Date(data[id].sellDay).getDate() - new Date(data[id].buyDay).getDate())}일
+
+                          ${
+                            new Date(data[id].sellDay).getDate() < new Date(data[id].buyDay).getDate() 
+                            ?
+                            Math.floor(new Date(data[id].sellDay).getDate() - new Date(data[id].buyDay).getDate() ) + 30 
+                            :
+                            Math.floor(new Date(data[id].sellDay).getDate() - new Date(data[id].buyDay).getDate())}일
                         `
                         // `${((Math.floor(new Date(data[id].sellDay).getTime() - new Date(data[id].buyDay).getTime())/(1000 * 60 * 60 * 24))/365).toFixed()}년`
 
