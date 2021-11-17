@@ -12,27 +12,34 @@ const Search = () => {
 
   let query = useQuery();
   let search = query.get('itemName');
-
-  useEffect(() => {
-    searchData();
-  }, [search]);
+  // console.log('search',search)
 
   const searchData = () =>{
     fireDb
     .child('stock')
     .orderByChild('itemName')
-    .equalTo(search)
+    // .equalTo(search)
+    .startAt(search.toUpperCase()).endAt(search+'\uf8ff')
+    // toUpperCase() 대소문자 구분없이 검색 가능
+    // \uf8ff 는 유사 내용 검색 가능
     .on('value', (snapshout) => {
       if(snapshout.val()){
         const data = snapshout.val();
         setData(data);
+      } else {
+        setData({});
       }
     })
   }
-  console.log('search',search)
-  console.log('data', data)
-  console.log('query', query)
-  console.log('Object', Object.keys(data))
+
+  useEffect(() => {
+    searchData()
+  }, [search]);
+
+
+  // console.log('data', data)
+  // console.log('query', query)
+  // console.log('Object', Object.keys(data).length)
 
   return (
     <>
