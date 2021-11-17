@@ -8,13 +8,14 @@ const initialState = {
   itemName: '',
   buyDay: '',
   buyPrice: '',
+  status: '',
 }
 
 const AddEdit = () => {
   const [state, setState] = useState(initialState);
   const [data, setData] = useState({});
 
-  const {itemName, buyDay, buyPrice, sellDay, sellPrice} = state;
+  const {itemName, buyDay, buyPrice, sellDay, sellPrice, status} = state;
 
   const navigate = useNavigate();
 
@@ -50,7 +51,7 @@ const AddEdit = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if(!id){
-      if(!itemName || !buyDay || !buyPrice) {
+      if(!itemName || !buyDay || !buyPrice || !status) {
         toast.error('종목 명, 매수 일, 매수 금액은 필수 입력 사항입니다.')
       } else {
         fireDb.child('stock').push(state, (err) => {
@@ -75,7 +76,7 @@ const AddEdit = () => {
             toast.error('매도 금액을 입력해 주세요')
           } else if (sellPrice && ! sellDay){
             toast.error('매도 일을 입력해 주세요')
-          } else if ((data[id].itemName !== itemName) || (data[id].buyDay !== buyDay) || (data[id].buyPrice !== buyPrice) ) {
+          } else if ((data[id].itemName !== itemName) || (data[id].buyDay !== buyDay) || (data[id].buyPrice !== buyPrice) || (data[id].status !== status) ) {
             // 기존의 종목 명, 매수 일, 매수 금액과 새로 입력된 정보가 다른 경우
             fireDb.child(`stock/${id}`).set(state, (err) => {
               if(err) {
@@ -196,6 +197,9 @@ const AddEdit = () => {
 
         {id && <label htmlFor='buyPrice' >매도 금액</label> }
         {id && <input value={sellPrice || ""} onChange={handleInputChange} type='number' id='sellPrice' name='sellPrice' placeholder='20000' /> }
+
+        <label htmlFor='status'>관심  {id && `(☆)`}</label>
+        <input value={status || ""} onChange={handleInputChange} type='text' id='status' name='status' placeholder='관심 종목, 매수 종목, 매도 종목, ' />
 
         <input type="submit" value={id ? "수정" : "저장" } />
       </form>

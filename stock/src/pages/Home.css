@@ -3,7 +3,7 @@
   margin: auto;
   font-size: 0.9em;
   font-family: sans-serif;
-  max-width: 1100px;
+  max-width: 1200px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
@@ -77,5 +77,10 @@
 
 .btn-inactive {
   background-color: #445f61;
+  color: black;
+}
+
+.btn-outactive {
+  background-color: #614844;
   color: black;
 }

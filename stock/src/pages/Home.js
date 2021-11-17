@@ -39,6 +39,7 @@ const Home = () => {
   const handleChange = (e) => {
     setSort(true); 
     const value = e.target.value
+    console.log(value)
     if ( value === 'buyDay' || value === 'itemName' || value === 'sellDay' ){
         fireDb.child('stock').orderByChild(`${e.target.value}`).on('value', (snapshot) => {
         let sortedData = [];
@@ -48,53 +49,106 @@ const Home = () => {
         setSortedData(sortedData);
         console.log(sortedData)
       })
-    } else if (value === 'buyPrice' || value === 'sellPrice') {
-      // 매도 매수 가격
-      
-        fireDb.child('stock').orderByChild(`${e.target.value}`).on('value', (snapshot) => {
+    } else if (value === 'buyPrice' ) {
+      // 매도 가격
+      fireDb.child('stock').orderByChild(`${e.target.value}`).on('value', (snapshot) => {
         let sortedData = [];
         snapshot.forEach((snap)=>{
           sortedData.push(snap.val());
         });
-        setSortedData(sortedData.sort(function(a,b){
-          return Number(a.sellPrice) < Number(b.sellPrice) ? -1 : Number(a.sellPrice) > Number(b.sellPrice) ? 1 : 0 
-        }));
-        console.log(sortedData)
-        })
-      
+        setSortedData(sortedData.sort((a,b)=>
+          Number(b.buyPrice)-Number(a.buyPrice)
+        ));
+      })
+    } else if (value === 'sellPrice') {
+      // 매수 가격
+      fireDb.child('stock').orderByChild(`${e.target.value}`).on('value', (snapshot) => {
+        let sortedData = [];
+        snapshot.forEach((snap)=>{
+          sortedData.push(snap.val());
+        });
+        setSortedData(sortedData.sort((a,b)=>
+          Number(b.sellPrice)-Number(a.sellPrice)
+        ));
+      })
     }
     else if (value === 'prepare') {
       // 대비
-
-
-      fireDb.child('stock').orderByChild('sellPrice').on('value', (snapshot) => {
-        console.log(snapshot.val())
-
-        
+      fireDb.child('stock').on('value', (snapshot) => {
+        let sortedData = [];
+        snapshot.forEach((snap)=>{
+          sortedData.push(snap.val());
+        });
+        setSortedData(sortedData.sort((a,b)=>
+          ((Number(b.sellPrice)-Number(b.buyPrice))-(Number(a.sellPrice)-Number(a.buyPrice)))
+        ))
       });
-
-
-
     } else if (value === 'fluctuationRate') {
       // 등락률
-      console.log('등락률')
+      fireDb.child('stock').on('value', (snapshot) => {
+        let sortedData = [];
+        snapshot.forEach((snap)=>{
+          sortedData.push(snap.val());
+        });
+        setSortedData(sortedData.sort((a,b)=>
+          (((Number(b.sellPrice)-Number(b.buyPrice))/Number(b.buyPrice))*100) - (((Number(a.sellPrice)-Number(a.buyPrice))/Number(a.buyPrice))*100)
+        ))
+      });
     } else {
       // 투자 기간
-      console.log('투자기간')
-    }
-
-
-    
-    
+      fireDb.child('stock').on('value', (snapshot) => {
+        let sortedData = [];
+        snapshot.forEach((snap)=>{
+          sortedData.push(snap.val());
+        });
+        setSortedData(sortedData.sort((a,b)=>
+        (Math.floor(new Date(a.sellDay).getTime() - new Date(a.buyDay).getTime())/(1000 * 60 * 60 *24))-(Math.floor(new Date(b.sellDay).getTime() - new Date(b.buyDay).getTime())/(1000 * 60 * 60 *24))
+        ))
+      });
+    }    
   };
 
   const handleReset = (e) => {
     setSort(false);
+    fireDb.child('stock').on('value', (snapshot) => {
+      if(snapshot.val() !== null) {
+        setData({...snapshot.val()});
+      } else {
+        setData({});
+      }
+    })
+  }
+
+  const filterData = (value) => {
+    fireDb.child('stock').orderByChild('status').equalTo(value).on('value',(snapshot)=> {
+      if(snapshot.val()){
+        const data = snapshot.val();
+        setData(data);
+      }
+    });
   }
 
   return (
     <div style={{marginTop: '100px'}}>
       <h2>관심 종목</h2>
+      <label>상태 : </label>
+      <button className="btn btn-active" onClick={()=> filterData('관심 종목')}>관심 종목</button>
+      <button className="btn btn-inactive" onClick={()=> filterData('매수 종목')}>매수 종목</button>
+      <button className="btn btn-outactive" onClick={()=> filterData('매도 종목')}>매도 종목</button>
+      <label>정렬 기준: </label>
+      <select className="dropdown" name="colValue" onChange={handleChange}>
+        <option>선택 해주세요</option>
+        <option value="itemName">종목 명</option>
+        <option value="buyDay">매수 날짜</option>
+        <option value="buyPrice">매수 가격</option>
+        <option value="sellDay">매도 날짜</option>
+        <option value="sellPrice">매도 가격</option>
+        <option value="prepare">대비</option>
+        <option value="fluctuationRate">등락률</option>
+        <option value="investmentPeriod">투자기간</option>
+      </select>
+      <button className="btn btn-reset" onClick={handleReset}>초기화</button>
+
       <table className="styled-table">
         <thead>
           <tr>
@@ -107,6 +161,7 @@ const Home = () => {
             <th style={{ textAlign: 'center' }}>대비</th>
             <th style={{ textAlign: 'center' }}>등락률</th>
             <th style={{ textAlign: 'center' }}>투자 기간</th>
+            <th style={{ textAlign: 'center' }}>상태</th>
             {!sort && (<th style={{ textAlign: 'center' }}>기능</th>)}
           </tr>
         </thead>
@@ -195,7 +250,11 @@ const Home = () => {
                   } 
                 </td>
                 {/* 투자 기간 */}
-                
+
+                <td>
+                  {data[id].status}
+                </td>
+
                 <td>
                   <Link to={`/update/${id}`}>
                     <button className="btn btn-edit">수정</button>
@@ -294,6 +353,7 @@ const Home = () => {
                   } 
                 </td>
                 {/* 투자 기간 */}
+                <td>{item.status}</td>
               </tr>
               )
             })}
@@ -301,21 +361,6 @@ const Home = () => {
         )}
         
       </table>
-
-      <label>정렬 기준: </label>
-      <select className="dropdown" name="colValue" onChange={handleChange}>
-        <option>선택 해주세요</option>
-        <option value="itemName">종목 명</option>
-        <option value="buyDay">매수 날짜</option>
-        <option value="buyPrice">매수 가격</option>
-        <option value="sellDay">매도 날짜</option>
-        <option value="sellPrice">매도 가격</option>
-        <option value="prepare">대비</option>
-        <option value="fluctuationRate">등락률</option>
-        <option value="investmentPeriod">투자기간</option>
-      </select>
-      <button className="btn btn-reset" onClick={handleReset}>초기화</button>
-      <br />
     </div>
   )
 }

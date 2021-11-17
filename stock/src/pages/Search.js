@@ -60,6 +60,7 @@ const Search = () => {
               <th style={{ textAlign: 'center' }}>대비</th>
               <th style={{ textAlign: 'center' }}>등락률</th>
               <th style={{ textAlign: 'center' }}>투자 기간</th>
+              <th style={{ textAlign: 'center' }}>상태</th>
             </tr>
           </thead>
           <tbody>
@@ -144,6 +145,7 @@ const Search = () => {
                     } 
                   </td>
                   {/* 투자 기간 */}
+                  <td>{data[id].status}</td>
                 </tr>
               )
             })}
