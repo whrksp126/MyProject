@@ -8,6 +8,9 @@ const Home = () => {
   const [data, setData] = useState({});
   const [sortedData, setSortedData] = useState([]);
   const [sort, setSort] = useState(false);
+  const [status, setStatus] = useState(false);
+  const selectRef = useRef(null);
+
 
   useEffect(() => {
     fireDb.child('stock').on('value', (snapshot) => {
@@ -40,72 +43,193 @@ const Home = () => {
     setSort(true); 
     const value = e.target.value
     console.log(value)
-    if ( value === 'buyDay' || value === 'itemName' || value === 'sellDay' ){
+    if ( value === 'itemName' ){
+      if(!status){
+        console.log('상태 선택 안함')
         fireDb.child('stock').orderByChild(`${e.target.value}`).on('value', (snapshot) => {
+          let sortedData = [];
+          snapshot.forEach((snap)=>{
+            console.log(snap.val());
+            sortedData.push(snap.val());
+          });
+          setSortedData(sortedData);
+          console.log(sortedData)
+        })
+      } else {
+        console.log('상태 선택 함');
         let sortedData = [];
-        snapshot.forEach((snap)=>{
-          sortedData.push(snap.val());
+        Object.keys(data).forEach(function(v){
+          sortedData.push(data[v])
         });
-        setSortedData(sortedData);
-        console.log(sortedData)
-      })
+        setSortedData(sortedData.sort(function(a, b){
+          const nameA = a.itemName.toUpperCase();
+          const nameB = b.itemName.toUpperCase();
+          if(nameA < nameB) { return -1; }
+          if(nameA > nameB) { return 1; }
+          return 0;
+        }));
+      }
+    } else if (value === 'buyDay') {
+      if(!status){
+        console.log('상태 선택 안함')
+        fireDb.child('stock').orderByChild(`${e.target.value}`).on('value', (snapshot) => {
+          let sortedData = [];
+          snapshot.forEach((snap)=>{
+            console.log(snap.val());
+            sortedData.push(snap.val());
+          });
+          setSortedData(sortedData);
+          console.log(sortedData)
+        })
+      } else {
+        console.log('상태 선택 함');
+        let sortedData = [];
+        Object.keys(data).forEach(function(v){
+          sortedData.push(data[v])
+        });
+        setSortedData(sortedData.sort(function(a, b){
+          const nameA = a.buyDay;
+          const nameB = b.buyDay;
+          if(nameA < nameB) { return -1; }
+          if(nameA > nameB) { return 1; }
+          return 0;
+        }));
+      }
+    } else if (value === 'sellDay') {
+      if(!status){
+        console.log('상태 선택 안함')
+        fireDb.child('stock').orderByChild(`${e.target.value}`).on('value', (snapshot) => {
+          let sortedData = [];
+          snapshot.forEach((snap)=>{
+            console.log(snap.val());
+            sortedData.push(snap.val());
+          });
+          setSortedData(sortedData);
+          console.log(sortedData)
+        })
+      } else {
+        console.log('상태 선택 함');
+        let sortedData = [];
+        Object.keys(data).forEach(function(v){
+          sortedData.push(data[v])
+        });
+        setSortedData(sortedData.sort(function(a, b){
+          const nameA = a.sellDay;
+          const nameB = b.sellDay;
+          if(nameA < nameB) { return -1; }
+          if(nameA > nameB) { return 1; }
+          return 0;
+        }));
+      }
     } else if (value === 'buyPrice' ) {
-      // 매도 가격
-      fireDb.child('stock').orderByChild(`${e.target.value}`).on('value', (snapshot) => {
-        let sortedData = [];
-        snapshot.forEach((snap)=>{
-          sortedData.push(snap.val());
-        });
-        setSortedData(sortedData.sort((a,b)=>
-          Number(b.buyPrice)-Number(a.buyPrice)
-        ));
-      })
-    } else if (value === 'sellPrice') {
       // 매수 가격
-      fireDb.child('stock').orderByChild(`${e.target.value}`).on('value', (snapshot) => {
+      if(!status){
+        fireDb.child('stock').orderByChild(`${e.target.value}`).on('value', (snapshot) => {
+          let sortedData = [];
+          snapshot.forEach((snap)=>{
+            sortedData.push(snap.val());
+          });
+          setSortedData(sortedData.sort((a,b)=>
+            Number(b.buyPrice)-Number(a.buyPrice)
+          ));
+        })
+      } else {
         let sortedData = [];
-        snapshot.forEach((snap)=>{
-          sortedData.push(snap.val());
+        Object.keys(data).forEach(function(v){
+          sortedData.push(data[v])
         });
         setSortedData(sortedData.sort((a,b)=>
-          Number(b.sellPrice)-Number(a.sellPrice)
-        ));
-      })
-    }
-    else if (value === 'prepare') {
+        Number(b.buyPrice)-Number(a.buyPrice)
+      ));
+      }
+    } else if (value === 'sellPrice') {
+      // 매도 가격
+      if(!status){
+        fireDb.child('stock').orderByChild(`${e.target.value}`).on('value', (snapshot) => {
+          let sortedData = [];
+          snapshot.forEach((snap)=>{
+            sortedData.push(snap.val());
+          });
+          setSortedData(sortedData.sort((a,b)=>
+            Number(b.sellPrice)-Number(a.sellPrice)
+          ));
+        })
+      } else {
+        let sortedData = [];
+        Object.keys(data).forEach(function(v){
+          sortedData.push(data[v])
+        });
+        setSortedData(sortedData.sort((a,b)=>
+        Number(b.sellPrice)-Number(a.sellPrice)
+      ));
+      }
+    } else if (value === 'prepare') {
       // 대비
-      fireDb.child('stock').on('value', (snapshot) => {
+      if(!status){
+        fireDb.child('stock').on('value', (snapshot) => {
+          let sortedData = [];
+          snapshot.forEach((snap)=>{
+            sortedData.push(snap.val());
+          });
+          setSortedData(sortedData.sort((a,b)=>
+            ((Number(b.sellPrice)-Number(b.buyPrice))-(Number(a.sellPrice)-Number(a.buyPrice)))
+          ))
+        });
+      } else {
         let sortedData = [];
-        snapshot.forEach((snap)=>{
-          sortedData.push(snap.val());
+        Object.keys(data).forEach(function(v){
+          sortedData.push(data[v])
         });
         setSortedData(sortedData.sort((a,b)=>
-          ((Number(b.sellPrice)-Number(b.buyPrice))-(Number(a.sellPrice)-Number(a.buyPrice)))
-        ))
-      });
+        ((Number(b.sellPrice)-Number(b.buyPrice))-(Number(a.sellPrice)-Number(a.buyPrice)))
+      ))
+      }
     } else if (value === 'fluctuationRate') {
       // 등락률
-      fireDb.child('stock').on('value', (snapshot) => {
+      if(!status){
+        fireDb.child('stock').on('value', (snapshot) => {
+          let sortedData = [];
+          console.log(snapshot)
+          snapshot.forEach((snap)=>{
+            sortedData.push(snap.val());
+          });
+          setSortedData(sortedData.sort((a,b)=>
+            (((Number(b.sellPrice)-Number(b.buyPrice))/Number(b.buyPrice))*100) - (((Number(a.sellPrice)-Number(a.buyPrice))/Number(a.buyPrice))*100)
+          ))
+        });
+      } else {
         let sortedData = [];
-        snapshot.forEach((snap)=>{
-          sortedData.push(snap.val());
+        Object.keys(data).forEach(function(v){
+          sortedData.push(data[v])
         });
         setSortedData(sortedData.sort((a,b)=>
-          (((Number(b.sellPrice)-Number(b.buyPrice))/Number(b.buyPrice))*100) - (((Number(a.sellPrice)-Number(a.buyPrice))/Number(a.buyPrice))*100)
-        ))
-      });
-    } else {
+        (((Number(b.sellPrice)-Number(b.buyPrice))/Number(b.buyPrice))*100) - (((Number(a.sellPrice)-Number(a.buyPrice))/Number(a.buyPrice))*100)
+      ))
+      }
+    } else if (value === 'investmentPeriod'){
       // 투자 기간
-      fireDb.child('stock').on('value', (snapshot) => {
+      if(!status){
+        fireDb.child('stock').on('value', (snapshot) => {
+          let sortedData = [];
+          snapshot.forEach((snap)=>{
+            sortedData.push(snap.val());
+          });
+          setSortedData(sortedData.sort((a,b)=>
+          (Math.floor(new Date(a.sellDay).getTime() - new Date(a.buyDay).getTime())/(1000 * 60 * 60 *24))-(Math.floor(new Date(b.sellDay).getTime() - new Date(b.buyDay).getTime())/(1000 * 60 * 60 *24))
+          ))
+        });
+      } else {
         let sortedData = [];
-        snapshot.forEach((snap)=>{
-          sortedData.push(snap.val());
+        Object.keys(data).forEach(function(v){
+          sortedData.push(data[v])
         });
         setSortedData(sortedData.sort((a,b)=>
         (Math.floor(new Date(a.sellDay).getTime() - new Date(a.buyDay).getTime())/(1000 * 60 * 60 *24))-(Math.floor(new Date(b.sellDay).getTime() - new Date(b.buyDay).getTime())/(1000 * 60 * 60 *24))
         ))
-      });
-    }    
+      }
+    } else {
+      handleReset()
+    } 
   };
 
   const handleReset = (e) => {
@@ -117,27 +241,33 @@ const Home = () => {
         setData({});
       }
     })
+    // document.getElementById('select').value='none';
+    selectRef.current.value = 'none';
   }
 
   const filterData = (value) => {
+    handleReset();
     fireDb.child('stock').orderByChild('status').equalTo(value).on('value',(snapshot)=> {
       if(snapshot.val()){
         const data = snapshot.val();
         setData(data);
+        console.log(data)
+        setStatus(true)
+        
       }
     });
   }
 
   return (
-    <div style={{marginTop: '100px'}}>
+    <div style={{marginTop: '50px'}}>
       <h2>관심 종목</h2>
       <label>상태 : </label>
       <button className="btn btn-active" onClick={()=> filterData('관심 종목')}>관심 종목</button>
       <button className="btn btn-inactive" onClick={()=> filterData('매수 종목')}>매수 종목</button>
       <button className="btn btn-outactive" onClick={()=> filterData('매도 종목')}>매도 종목</button>
       <label>정렬 기준: </label>
-      <select className="dropdown" name="colValue" onChange={handleChange}>
-        <option>선택 해주세요</option>
+      <select id="select" ref={selectRef} className="dropdown" name="colValue" style={{marginBottom: '20px'}} onChange={handleChange}>
+        <option value='none'>선택 해주세요</option>
         <option value="itemName">종목 명</option>
         <option value="buyDay">매수 날짜</option>
         <option value="buyPrice">매수 가격</option>
@@ -146,23 +276,23 @@ const Home = () => {
         <option value="prepare">대비</option>
         <option value="fluctuationRate">등락률</option>
         <option value="investmentPeriod">투자기간</option>
-      </select>
+      </select >
       <button className="btn btn-reset" onClick={handleReset}>초기화</button>
 
       <table className="styled-table">
         <thead>
           <tr>
             <th style={{ textAlign: 'center' }}>No.</th>
-            <th style={{ textAlign: 'center' }}>종목 명</th>
-            <th style={{ textAlign: 'center' }}>매수 날짜</th>
-            <th style={{ textAlign: 'center' }}>매수 가격</th>
-            <th style={{ textAlign: 'center' }}>매도 날짜</th>
-            <th style={{ textAlign: 'center' }}>매도 가격</th>
-            <th style={{ textAlign: 'center' }}>대비</th>
-            <th style={{ textAlign: 'center' }}>등락률</th>
-            <th style={{ textAlign: 'center' }}>투자 기간</th>
-            <th style={{ textAlign: 'center' }}>상태</th>
-            {!sort && (<th style={{ textAlign: 'center' }}>기능</th>)}
+            <th style={{ textAlign: 'center', width: '90px' }}>종목 명</th>
+            <th style={{ textAlign: 'center', width: '100px' }}>매수 날짜</th>
+            <th style={{ textAlign: 'center', width: '80px' }}>매수 가격</th>
+            <th style={{ textAlign: 'center', width: '100px' }}>매도 날짜</th>
+            <th style={{ textAlign: 'center', width: '80px' }}>매도 가격</th>
+            <th style={{ textAlign: 'center', width: '80px' }}>대비</th>
+            <th style={{ textAlign: 'center', width: '80px' }}>등락률</th>
+            <th style={{ textAlign: 'center', width: '100px' }}>투자 기간</th>
+            <th style={{ textAlign: 'center', width: '80px' }}>상태</th>
+            {!sort && (<th style={{ textAlign: 'center', width: '250px' }}>기능</th>)}
           </tr>
         </thead>
         {!sort && (
@@ -210,9 +340,9 @@ const Home = () => {
                 <td>
                   {!(data[id].sellPrice) ? (null) :
                   // 매도 가격이 없으면 공백
-                    (data[id].sellPrice - data[id].buyPrice ) > 0 ? `↑${(((data[id].sellPrice - data[id].buyPrice) / data[id].buyPrice) * 100).toFixed(2)} % ` 
+                    (data[id].sellPrice - data[id].buyPrice ) > 0 ? `▲${(((data[id].sellPrice - data[id].buyPrice) / data[id].buyPrice) * 100).toFixed(2)} % ` 
                   // 매도가 + 이면
-                    :`↓${(((data[id].sellPrice - data[id].buyPrice) / data[id].buyPrice) * 100).toFixed(2)} % `
+                    :`▽${(((data[id].sellPrice - data[id].buyPrice) / data[id].buyPrice) * 100).toFixed(2)} % `
                   // 매도가 - 이면
                   }
                 </td>
@@ -316,9 +446,9 @@ const Home = () => {
                 <td>
                   {!(item.sellPrice) ? (null) :
                   // 매도 가격이 없으면 공백
-                    (item.sellPrice - item.buyPrice ) > 0 ? `↑${(((item.sellPrice - item.buyPrice) / item.buyPrice) * 100).toFixed(2)} % ` 
+                    (item.sellPrice - item.buyPrice ) > 0 ? `▲${(((item.sellPrice - item.buyPrice) / item.buyPrice) * 100).toFixed(2)} % ` 
                   // 매도가 + 이면
-                    :`↓${(((item.sellPrice - item.buyPrice) / item.buyPrice) * 100).toFixed(2)} % `
+                    :`▽${(((item.sellPrice - item.buyPrice) / item.buyPrice) * 100).toFixed(2)} % `
                   // 매도가 - 이면
                   }
                 </td>

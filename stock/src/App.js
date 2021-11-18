@@ -13,6 +13,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Header from "./components/Header";
 import Search from "./pages/Search";
+import Login from "./pages/Login";
 
 //teststock
 import Teststock from './pages/Teststock'
@@ -30,6 +31,9 @@ function App() {
           <Route path="/view/:id" element={<View/>} />
           <Route path="/about" element={<About/>} />
           <Route path="/search" element={<Search/>} />
+
+          {/* login */}
+          <Route path="/login" element={<Login/>} />
 
           {/* testStock */}
           <Route path="/stock" element={<Teststock/>} />
