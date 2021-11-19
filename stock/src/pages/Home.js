@@ -3,6 +3,9 @@ import fireDb from '../firebase';
 import {Link} from 'react-router-dom';
 import './Home.css'
 import { toast } from 'react-toastify';
+import {useDispatch, useSelector} from 'react-redux';
+import { logoutInitiate } from '../redux/actions';
+import Login from './Login';
 
 const Home = () => {
   const [data, setData] = useState({});
@@ -10,6 +13,9 @@ const Home = () => {
   const [sort, setSort] = useState(false);
   const [status, setStatus] = useState(false);
   const selectRef = useRef(null);
+
+  const {currentUser} = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
 
   useEffect(() => {
@@ -258,7 +264,13 @@ const Home = () => {
     });
   }
 
-  return (
+  const handleAuth = () => {
+    if(currentUser) {
+      dispatch(logoutInitiate());
+    }
+  };
+
+  return currentUser ? (
     <div style={{marginTop: '50px'}}>
       <h2>관심 종목</h2>
       <label>상태 : </label>
@@ -278,7 +290,6 @@ const Home = () => {
         <option value="investmentPeriod">투자기간</option>
       </select >
       <button className="btn btn-reset" onClick={handleReset}>초기화</button>
-
       <table className="styled-table">
         <thead>
           <tr>
@@ -491,8 +502,10 @@ const Home = () => {
         )}
         
       </table>
+      <button className="btn btn-reset" onClick={handleAuth} style={{marginTop: '20px', background: 'red'}}>로그아웃</button>
+
     </div>
-  )
+  ) : <Login/>
 }
 
 export default Home

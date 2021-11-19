@@ -178,6 +178,8 @@ const AddEdit = () => {
     setState({...state, [name]: value});
   }
 
+
+
   return (
     <div style={{marginTop: '100px'}}>
       <h2>종목 추가 페이지</h2>
@@ -204,7 +206,7 @@ const AddEdit = () => {
         <input type="submit" value={id ? "수정" : "저장" } />
       </form>
     </div>
-  );
+  )
 }
 
 export default AddEdit

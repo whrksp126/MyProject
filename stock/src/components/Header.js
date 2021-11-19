@@ -29,7 +29,9 @@ const Header = () => {
 
   return (
     <div className="header">
-      <p className='logo'>주식 투자 연습</p>
+      <Link to='/'>
+        <p className='logo'>장기 주식 투자 데이터 창고</p>
+      </Link>
       <div className="header-right">
 
         <form onSubmit={handleSubmit} style={{display: 'inline'}}>

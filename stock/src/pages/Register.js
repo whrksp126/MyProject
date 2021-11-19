@@ -1,15 +1,16 @@
 import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigate, Link} from 'react-router-dom';
-import { loginInitiate } from '../redux/actions';
+import { registerInitiate } from '../redux/actions';
 
-const Login = () => {
+const Register = () => {
+
   const [state, setState] = useState({
+    displayName: '',
     email: '',
     password: '',
+    passwordConfirm: '',
   })
-
-  const {email, password} = state;
 
   const {currentUser} = useSelector((state) => state.user);
 
@@ -23,13 +24,14 @@ const Login = () => {
 
   const dispatch = useDispatch();
 
+  const {email, password, passwordConfirm, displayName} = state;
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(!email || !password) {
+    if(password !== passwordConfirm) {
       return;
     }
-    dispatch(loginInitiate(email, password));
-    setState({email: '', password: ''});
+    dispatch(registerInitiate(email, password, displayName));
+    setState({email: '', displayName: '', password: '', passwordConfirm: ''});
   }
 
   const handleChange = (e) => {
@@ -39,12 +41,22 @@ const Login = () => {
 
   return (
     <div>
-      <h2>장기 주식 투자 데이터 창고</h2>
+      <h2>회원가입 페이지 입니다.</h2>
       <form onSubmit={handleSubmit}>
+      <label htmlFor=''>성명</label>
+        <input 
+          type='text' 
+          id='displayName' 
+          name='displayName' 
+          placeholder='test'
+          onChange={handleChange} 
+          value={displayName} 
+          required />
+        <br/>
         <label htmlFor=''>이메일</label>
         <input 
           type='email' 
-          id='inputEmail' 
+          id='user-email' 
           name='email' 
           placeholder='test@test.test'
           onChange={handleChange} 
@@ -61,18 +73,23 @@ const Login = () => {
           value={password} 
           required
         />
+        <label htmlFor=''>비밀번호 재확인</label>
+        <input 
+          type='password' 
+          id='passwordConfirm' 
+          name='passwordConfirm' 
+          placeholder='testtest' 
+          onChange={handleChange} 
+          value={passwordConfirm} 
+          required
+        />
         <input type="submit" value={ "로그인" } />
-        <hr/>
-        <p>계정이 없으시면 회원가입을 진행 하세요.</p>
-        <Link to={ "/register"}>
-          <button type='button' id="btn-signup">
-            회원가입
-          </button>
+        <Link to="/login">
+          <button>돌아가기</button>
         </Link>
-        
       </form>  
     </div>
   )
 }
 
-export default Login
+export default Register
