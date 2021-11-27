@@ -1,46 +1,23 @@
 import * as types from './actionTypes';
 import {auth} from '../firebase';
 
-const registerStart = () => ({
-  type: types.REGISTER_START
-})
+const registerStart = () => ({type: types.REGISTER_START})
 
-const registerSuccess = (user) => ({
-  type: types.REGISTER_SUCCESS,
-  payload: user
-})
+const registerSuccess = (user) => ({type: types.REGISTER_SUCCESS,payload: user})
 
-const registerFail = (error) => ({
-  type: types.REGISTER_FAIL,
-  payload: error
-})
+const registerFail = (error) => ({type: types.REGISTER_FAIL,payload: error})
 
-const loginStart = () => ({
-  type: types.LOGIN_START
-})
+const loginStart = () => ({type: types.LOGIN_START})
 
-const loginSuccess = (user) => ({
-  type: types.LOGIN_SUCCESS,
-  payload: user
-})
+const loginSuccess = (user) => ({type: types.LOGIN_SUCCESS,payload: user})
 
-const loginFail = (error) => ({
-  type: types.LOGIN_FAIL,
-  payload: error
-})
+const loginFail = (error) => ({type: types.LOGIN_FAIL,payload: error})
 
-const logoutStart = () => ({
-  type: types.LOGOUT_START
-})
+const logoutStart = () => ({type: types.LOGOUT_START})
 
-const logoutSuccess = () => ({
-  type: types.LOGOUT_SUCCESS,
-})
+const logoutSuccess = () => ({type: types.LOGOUT_SUCCESS,})
 
-const logoutFail = (error) => ({
-  type: types.LOGOUT_FAIL,
-  payload: error
-})
+const logoutFail = (error) => ({type: types.LOGOUT_FAIL,payload: error})
 
 
 export const registerInitiate = (email, password, displayName) => {
