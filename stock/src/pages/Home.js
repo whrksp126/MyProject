@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import {useDispatch, useSelector} from 'react-redux';
 import { logoutInitiate } from '../redux/actions';
 import Login from './Login';
+import { getAuth } from 'firebase/auth';
 
 const Home = () => {
   const [data, setData] = useState({});
@@ -17,6 +18,15 @@ const Home = () => {
   const {currentUser} = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
+  const auth = getAuth();
+  const user = auth.currentUser;
+  let uid;
+  if(auth.currentUser !== null){
+    uid = user.uid;
+  }
+  useEffect(()=>{
+    
+  },[uid])
 
   useEffect(() => {
     fireDb.child('stock').on('value', (snapshot) => {
@@ -293,7 +303,7 @@ const Home = () => {
       <table className="styled-table">
         <thead>
           <tr>
-            <th style={{ textAlign: 'center' }}>No.</th>
+            {/* <th style={{ textAlign: 'center' }}>No.</th> */}
             <th style={{ textAlign: 'center', width: '90px' }}>종목 명</th>
             <th style={{ textAlign: 'center', width: '100px' }}>매수 날짜</th>
             <th style={{ textAlign: 'center', width: '80px' }}>매수 가격</th>
@@ -309,104 +319,109 @@ const Home = () => {
         {!sort && (
           <tbody>
           {Object.keys(data).map((id, index)=>{
-
-            return (
-              <tr key={id}>
-                <th scope="row" >{index + 1}</th>
-                <td>
-                  <Link 
-                    style={{ 
-                      textDecoration: 'none', 
-                      color: 'black', 
-                    }} 
-                    to={`/view/${id}`}>{data[id].itemName}
-                  </Link>
-                </td>
-                
-                {/* 종목 명 */}
-
-                <td>{data[id].buyDay}</td>
-                {/* 매수 날짜 */}
-
-                <td>{data[id].buyPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
-                {/* 매수 금액 */}
-
-                <td>{data[id].sellDay ? data[id].sellDay : (null)}</td>
-                {/* 매도 날짜 */}
-
-                <td>{data[id].sellPrice ? data[id].sellPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') :' '}</td>
-                {/* 매도 금액 */}
-
-                <td>
-                  {!(data[id].sellPrice) ? (null) : 
-                  // 매도 가격이 없으면 공백
-                (data[id].sellPrice - data[id].buyPrice ) > 0 ? ` ▲ ${(data[id].sellPrice - data[id].buyPrice).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} `
-                  // 대비가 + 이면
-                : `▽ ${(data[id].sellPrice - data[id].buyPrice).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
-                  // 대비가 - 이면
-                }
-                </td>
-                {/* 대비 */}
-
-                <td>
-                  {!(data[id].sellPrice) ? (null) :
-                  // 매도 가격이 없으면 공백
-                    (data[id].sellPrice - data[id].buyPrice ) > 0 ? `▲${(((data[id].sellPrice - data[id].buyPrice) / data[id].buyPrice) * 100).toFixed(2)} % ` 
-                  // 매도가 + 이면
-                    :`▽${(((data[id].sellPrice - data[id].buyPrice) / data[id].buyPrice) * 100).toFixed(2)} % `
-                  // 매도가 - 이면
+            if(data[id].uid === uid){
+              return (
+                <tr key={id}>
+                  {/* <th scope="row" >{index + 1}</th> */}
+                  <td>
+                    <Link 
+                      style={{ 
+                        textDecoration: 'none', 
+                        color: 'black', 
+                      }} 
+                      to={`/view/${id}`}>{data[id].itemName}
+                    </Link>
+                  </td>
+                  
+                  {/* 종목 명 */}
+  
+                  <td>{data[id].buyDay}</td>
+                  {/* 매수 날짜 */}
+  
+                  <td>{data[id].buyPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
+                  {/* 매수 금액 */}
+  
+                  <td>{data[id].sellDay ? data[id].sellDay : (null)}</td>
+                  {/* 매도 날짜 */}
+  
+                  <td>{data[id].sellPrice ? data[id].sellPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') :' '}</td>
+                  {/* 매도 금액 */}
+  
+                  <td>
+                    {!(data[id].sellPrice) ? (null) : 
+                    // 매도 가격이 없으면 공백
+                  (data[id].sellPrice - data[id].buyPrice ) > 0 ? ` ▲ ${(data[id].sellPrice - data[id].buyPrice).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} `
+                    // 대비가 + 이면
+                  : `▽ ${(data[id].sellPrice - data[id].buyPrice).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
+                    // 대비가 - 이면
                   }
-                </td>
-                {/* 등락률 */}
-
-                <td>
-                  {
-                    !(data[id].sellDay) ? 
-                      (null)
-                        :
-                        Math.floor(new Date(data[id].sellDay).getTime() - new Date(data[id].buyDay).getTime())/(1000 * 60 * 60 * 24) < 365
-                         ? 
-                        //  ('365일 이하인 경우')
-                        `${Math.floor(new Date(data[id].sellDay).getTime() - new Date(data[id].buyDay).getTime())/(1000 * 60 * 60 * 24) } D`
-                        : 
-                        `${
-                          Math.floor(new Date(data[id].sellDay).getFullYear() - new Date(data[id].buyDay).getFullYear())}Y
-                          
-                         ${
-                          new Date(data[id].sellDay).getMonth() < new Date(data[id].buyDay).getMonth() 
-                          ?
-                          Math.floor(new Date(data[id].sellDay).getMonth() - new Date(data[id].buyDay).getMonth() ) + 12 
+                  </td>
+                  {/* 대비 */}
+  
+                  <td>
+                    {!(data[id].sellPrice) ? (null) :
+                    // 매도 가격이 없으면 공백
+                      (data[id].sellPrice - data[id].buyPrice ) > 0 ? `▲${(((data[id].sellPrice - data[id].buyPrice) / data[id].buyPrice) * 100).toFixed(2)} % ` 
+                    // 매도가 + 이면
+                      :`▽${(((data[id].sellPrice - data[id].buyPrice) / data[id].buyPrice) * 100).toFixed(2)} % `
+                    // 매도가 - 이면
+                    }
+                  </td>
+                  {/* 등락률 */}
+  
+                  <td>
+                    {
+                      !(data[id].sellDay) ? 
+                        (null)
                           :
-                          Math.floor(new Date(data[id].sellDay).getMonth() - new Date(data[id].buyDay).getMonth())}M
-
-                          ${
-                            new Date(data[id].sellDay).getDate() < new Date(data[id].buyDay).getDate() 
+                          Math.floor(new Date(data[id].sellDay).getTime() - new Date(data[id].buyDay).getTime())/(1000 * 60 * 60 * 24) < 365
+                           ? 
+                          //  ('365일 이하인 경우')
+                          `${Math.floor(new Date(data[id].sellDay).getTime() - new Date(data[id].buyDay).getTime())/(1000 * 60 * 60 * 24) } D`
+                          : 
+                          `${
+                            Math.floor(new Date(data[id].sellDay).getFullYear() - new Date(data[id].buyDay).getFullYear())}Y
+                            
+                           ${
+                            new Date(data[id].sellDay).getMonth() < new Date(data[id].buyDay).getMonth() 
                             ?
-                            Math.floor(new Date(data[id].sellDay).getDate() - new Date(data[id].buyDay).getDate() ) + 30 
+                            Math.floor(new Date(data[id].sellDay).getMonth() - new Date(data[id].buyDay).getMonth() ) + 12 
                             :
-                            Math.floor(new Date(data[id].sellDay).getDate() - new Date(data[id].buyDay).getDate())}D
-                        `
-                        // `${((Math.floor(new Date(data[id].sellDay).getTime() - new Date(data[id].buyDay).getTime())/(1000 * 60 * 60 * 24))/365).toFixed()}년`
+                            Math.floor(new Date(data[id].sellDay).getMonth() - new Date(data[id].buyDay).getMonth())}M
+  
+                            ${
+                              new Date(data[id].sellDay).getDate() < new Date(data[id].buyDay).getDate() 
+                              ?
+                              Math.floor(new Date(data[id].sellDay).getDate() - new Date(data[id].buyDay).getDate() ) + 30 
+                              :
+                              Math.floor(new Date(data[id].sellDay).getDate() - new Date(data[id].buyDay).getDate())}D
+                          `
+                          // `${((Math.floor(new Date(data[id].sellDay).getTime() - new Date(data[id].buyDay).getTime())/(1000 * 60 * 60 * 24))/365).toFixed()}년`
+  
+                    } 
+                  </td>
+                  {/* 투자 기간 */}
+  
+                  <td>
+                    {data[id].status}
+                  </td>
+  
+                  <td>
+                    <Link to={`/update/${id}`}>
+                      <button className="btn btn-edit">수정</button>
+                    </Link>
+                      <button className="btn btn-delete" onClick={() => onDelete(id)}>삭제</button>
+                    <Link to={`/view/${id}`}>
+                      <button className="btn btn-view">상세</button>
+                    </Link>
+                  </td>
+                </tr>
+              )
+            }
 
-                  } 
-                </td>
-                {/* 투자 기간 */}
+            
 
-                <td>
-                  {data[id].status}
-                </td>
 
-                <td>
-                  <Link to={`/update/${id}`}>
-                    <button className="btn btn-edit">수정</button>
-                  </Link>
-                    <button className="btn btn-delete" onClick={() => onDelete(id)}>삭제</button>
-                  <Link to={`/view/${id}`}>
-                    <button className="btn btn-view">상세</button>
-                  </Link>
-                </td>
-              </tr>
-            )
           })}
         </tbody>
         )}
@@ -416,87 +431,89 @@ const Home = () => {
         {sort && (
           <tbody>
             {sortedData.map((item, index) => {
-              return (
-                <tr key={index}>
-                <th scope="row" >{index + 1}</th>
-                <td>
-                  <Link 
-                    style={{ 
-                      textDecoration: 'none', 
-                      color: 'black', 
-                    }} 
-                    to={`/view/${item}`}>{item.itemName}
-                  </Link>
-                </td>
-                
-                {/* 종목 명 */}
-
-                <td>{item.buyDay}</td>
-                {/* 매수 날짜 */}
-
-                <td>{item.buyPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
-                {/* 매수 금액 */}
-
-                <td>{item.sellDay ? item.sellDay : (null)}</td>
-                {/* 매도 날짜 */}
-
-                <td>{item.sellPrice ? item.sellPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') :' '}</td>
-                {/* 매도 금액 */}
-
-                <td>
-                  {!(item.sellPrice) ? (null) : 
-                  // 매도 가격이 없으면 공백
-                (item.sellPrice - item.buyPrice ) > 0 ? ` ▲ ${(item.sellPrice - item.buyPrice).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} `
-                  // 대비가 + 이면
-                : `▽ ${(item.sellPrice - item.buyPrice).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
-                  // 대비가 - 이면
-                }
-                </td>
-                {/* 대비 */}
-
-                <td>
-                  {!(item.sellPrice) ? (null) :
-                  // 매도 가격이 없으면 공백
-                    (item.sellPrice - item.buyPrice ) > 0 ? `▲${(((item.sellPrice - item.buyPrice) / item.buyPrice) * 100).toFixed(2)} % ` 
-                  // 매도가 + 이면
-                    :`▽${(((item.sellPrice - item.buyPrice) / item.buyPrice) * 100).toFixed(2)} % `
-                  // 매도가 - 이면
+              if(item.uid === uid) {
+                return(
+                  <tr key={index}>
+                  {/* <th scope="row" >{index + 1}</th> */}
+                  <td>
+                    <Link 
+                      style={{ 
+                        textDecoration: 'none', 
+                        color: 'black', 
+                      }} 
+                      to={`/view/${item}`}>{item.itemName}
+                    </Link>
+                  </td>
+                  
+                  {/* 종목 명 */}
+  
+                  <td>{item.buyDay}</td>
+                  {/* 매수 날짜 */}
+  
+                  <td>{item.buyPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
+                  {/* 매수 금액 */}
+  
+                  <td>{item.sellDay ? item.sellDay : (null)}</td>
+                  {/* 매도 날짜 */}
+  
+                  <td>{item.sellPrice ? item.sellPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') :' '}</td>
+                  {/* 매도 금액 */}
+  
+                  <td>
+                    {!(item.sellPrice) ? (null) : 
+                    // 매도 가격이 없으면 공백
+                  (item.sellPrice - item.buyPrice ) > 0 ? ` ▲ ${(item.sellPrice - item.buyPrice).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} `
+                    // 대비가 + 이면
+                  : `▽ ${(item.sellPrice - item.buyPrice).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
+                    // 대비가 - 이면
                   }
-                </td>
-                {/* 등락률 */}
-
-                <td>
-                  {
-                    !(item.sellDay) ? 
-                      (null)
-                        :
-                      Math.floor(new Date(item.sellDay).getTime() - new Date(item.buyDay).getTime())/(1000 * 60 * 60 * 24) < 365
-                        ? 
-                      //  ('365일 이하인 경우')
-                      `${Math.floor(new Date(item.sellDay).getTime() - new Date(item.buyDay).getTime())/(1000 * 60 * 60 * 24) } D`
-                      : 
-                      `${
-                        Math.floor(new Date(item.sellDay).getFullYear() - new Date(item.buyDay).getFullYear())}Y
-                       ${
-                        new Date(item.sellDay).getMonth() < new Date(item.buyDay).getMonth() 
-                        ?
-                        Math.floor(new Date(item.sellDay).getMonth() - new Date(item.buyDay).getMonth() ) + 12 
-                        :
-                        Math.floor(new Date(item.sellDay).getMonth() - new Date(item.buyDay).getMonth())}M
-                        ${
-                          new Date(item.sellDay).getDate() < new Date(item.buyDay).getDate() 
-                          ?
-                          Math.floor(new Date(item.sellDay).getDate() - new Date(item.buyDay).getDate() ) + 30 
+                  </td>
+                  {/* 대비 */}
+  
+                  <td>
+                    {!(item.sellPrice) ? (null) :
+                    // 매도 가격이 없으면 공백
+                      (item.sellPrice - item.buyPrice ) > 0 ? `▲${(((item.sellPrice - item.buyPrice) / item.buyPrice) * 100).toFixed(2)} % ` 
+                    // 매도가 + 이면
+                      :`▽${(((item.sellPrice - item.buyPrice) / item.buyPrice) * 100).toFixed(2)} % `
+                    // 매도가 - 이면
+                    }
+                  </td>
+                  {/* 등락률 */}
+  
+                  <td>
+                    {
+                      !(item.sellDay) ? 
+                        (null)
                           :
-                          Math.floor(new Date(item.sellDay).getDate() - new Date(item.buyDay).getDate())}D
-                      `
-                    // `${((Math.floor(new Date(data[id].sellDay).getTime() - new Date(data[id].buyDay).getTime())/(1000 * 60 * 60 * 24))/365).toFixed()}년`
-                  } 
-                </td>
-                {/* 투자 기간 */}
-                <td>{item.status}</td>
-              </tr>
-              )
+                        Math.floor(new Date(item.sellDay).getTime() - new Date(item.buyDay).getTime())/(1000 * 60 * 60 * 24) < 365
+                          ? 
+                        //  ('365일 이하인 경우')
+                        `${Math.floor(new Date(item.sellDay).getTime() - new Date(item.buyDay).getTime())/(1000 * 60 * 60 * 24) } D`
+                        : 
+                        `${
+                          Math.floor(new Date(item.sellDay).getFullYear() - new Date(item.buyDay).getFullYear())}Y
+                         ${
+                          new Date(item.sellDay).getMonth() < new Date(item.buyDay).getMonth() 
+                          ?
+                          Math.floor(new Date(item.sellDay).getMonth() - new Date(item.buyDay).getMonth() ) + 12 
+                          :
+                          Math.floor(new Date(item.sellDay).getMonth() - new Date(item.buyDay).getMonth())}M
+                          ${
+                            new Date(item.sellDay).getDate() < new Date(item.buyDay).getDate() 
+                            ?
+                            Math.floor(new Date(item.sellDay).getDate() - new Date(item.buyDay).getDate() ) + 30 
+                            :
+                            Math.floor(new Date(item.sellDay).getDate() - new Date(item.buyDay).getDate())}D
+                        `
+                      // `${((Math.floor(new Date(data[id].sellDay).getTime() - new Date(data[id].buyDay).getTime())/(1000 * 60 * 60 * 24))/365).toFixed()}년`
+                    } 
+                  </td>
+                  {/* 투자 기간 */}
+                  <td>{item.status}</td>
+                </tr>
+                )
+              }
             })}
           </tbody>
         )}

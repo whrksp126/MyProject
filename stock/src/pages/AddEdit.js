@@ -3,15 +3,23 @@ import {useNavigate, useParams} from 'react-router-dom';
 import './AddEdit.css';
 import fireDb from '../firebase';
 import {toast} from 'react-toastify';
+import { getAuth } from "firebase/auth";
 
-const initialState = {
-  itemName: '',
-  buyDay: '',
-  buyPrice: '',
-  status: '',
-}
+
 
 const AddEdit = () => {
+  const auth = getAuth();
+  const user = auth.currentUser;
+  const uid = user.uid;
+  const initialState = {
+    itemName: '',
+    buyDay: '',
+    buyPrice: '',
+    status: '',
+    uid: uid,
+  }  
+  
+
   const [state, setState] = useState(initialState);
   const [data, setData] = useState({});
 
@@ -21,7 +29,9 @@ const AddEdit = () => {
 
   const {id} = useParams()
 
+
   useEffect(() => {
+
     fireDb.child('stock').on('value', (snapshot) => {
       if(snapshot.val() !== null){
         setData({...snapshot.val()})
@@ -177,8 +187,6 @@ const AddEdit = () => {
     const {name, value} = e.target;
     setState({...state, [name]: value});
   }
-
-
 
   return (
     <div style={{marginTop: '100px'}}>
